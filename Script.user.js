@@ -61,13 +61,13 @@ if (document.getElementById('bb_code'))
   document.getElementById('bb_code').appendChild(newElement);
   
   var newElement = document.createElement('span'); // On crée l'image qui augmente la taille de la fenêtre
-  newElement.innerHTML = '<img style="padding-left:0.5%;" src="http://image.noelshack.com/fichiers/2015/24/1434300992-ecriture.png" title="Agrandir la taille de la fenêtre"/>'
+  newElement.innerHTML = '<img style="padding-left:0.5%;" src="http://image.noelshack.com/fichiers/2015/24/1434303027-ecriturered.png" title="Agrandir la taille de la fenêtre"/>'
   newElement.setAttribute('id', 'agrandir');
   newElement.setAttribute('style', 'cursor:pointer;');
   document.getElementById('bb_code').appendChild(newElement);
   
    var newElement = document.createElement('span'); // On crée l'image qui réduit la taille de la fenêtre
-  newElement.innerHTML = '<img style="padding-left:0.5%;" src="http://image.noelshack.com/fichiers/2015/24/1434303027-ecriturered.png" title="Réduire la taille de la fenêtre"/>'
+  newElement.innerHTML = '<img style="padding-left:0.5%;" src="http://image.noelshack.com/fichiers/2015/24/1434300992-ecriture.png" title="Réduire la taille de la fenêtre"/>'
   newElement.setAttribute('id', 'reduire');
   newElement.setAttribute('style', 'cursor:pointer;');
   document.getElementById('bb_code').appendChild(newElement);
