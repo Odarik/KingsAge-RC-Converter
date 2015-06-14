@@ -5,30 +5,95 @@
 // @description  Script permettant de copier facilement le bb-code en masse de plusieurs rc différents afin de les poster sur le board officiel.
 // @author       Vulca & Toutatis
 // @include      http://*kingsage.gameforge.com/game.php?*=messages*
+// @updateURL   https://github.com/Odarik/KingsAge-RC-Converter/blob/master/Script.user.js
+// @downloadURL https://github.com/Odarik/KingsAge-RC-Converter/blob/master/Script.user.js
 // @grant		   GM_getValue
 // @grant		   GM_setValue
+// @grant		   GM_deleteValue
+// @grant		   GM_getResourceURL
+// @grant		   GM_xmlhttpRequest
+// @grant		   GM_log
 // ==/UserScript==
+var Version = '0.2';
+var scriptName = 'KinksAge RC Exporter';
+var majContinue = true;
+function checkMaJ(lien)
+{
+  if (majContinue && (FireFox || Tamper))
+  {
+    /* ******************************Recherche des MaJ ********************************/
+    GM_xmlhttpRequest({
+      method: 'GET',
+      url: lien,
+      onload: function (response)
+      {
+        var PageUserScript = response.responseText;
+        var Derniere_Version = trim(PageUserScript.split('@version') [1].split('//') [0]);
+        //var derniere_OGversionOK = trim(PageUserScript.split('@vOGgame')[1].split('// @version')[0]);
+        Version = Version + '';
+        if (Derniere_Version.length < 10 && Derniere_Version.length > 3) // Verifie site pas down
+        {
+          if (Derniere_Version != Version && parseInt(Derniere_Version.replace(/\./g, '')) > parseInt(Version.replace(/\./g, '')))
+          {
+            GM_setValue(nomScript + 'aJours', false);
+            GM_setValue(nomScript + 'dateMaJ', Date.parse(new Date()) / 1000);
+            if (document.getElementById('td' + scriptName + 'out')) // There is an update, display it !
+            {
+              document.getElementById('td' + scriptName + 'out').innerHTML = '<a id="update' + scriptName + '" style="cursor:pointer;"  href="https://github.com/Odarik/KingsAge-RC-Converter/blob/master/Script.user.js">update It</a>'
+            }
+          } 
+          else
+          {
+            GM_setValue(nomScript + 'aJours', true);
+            GM_setValue(nomScript + 'dateMaJ', Date.parse(new Date()) / 1000);
+            document.getElementById(scriptName + 'out').innerHTML = '' // Delete the script message
+          }
+        }
+      },
+      onerror: function (e)
+      {
+      }
+    });
+  }
+}
+if (parseInt(GM_getValue(nomScript + 'dateMaJ', 0)) + freqMaj < Date.parse(new Date()) / 1000)
+{
+  checkMaJ('https://github.com/Odarik/KingsAge-RC-Converter/blob/master/Script.user.js');
+}
+
 // == Compatibilité navigateur ==
+
 var Chrome = navigator.userAgent.indexOf('Chrome') > - 1;
 if (Chrome)
 {
-  if (typeof GM_getResourceURL === 'function')
-  {
-    Tamper = true; // TamperMonkey
-  }
-  function GM_getValue(key, defaultVal)
-  {
-    var retValue = localStorage.getItem(key);
-    if (!retValue)
-    {
-      return defaultVal;
-    }
-    return retValue;
-  }
-  function GM_setValue(key, value)
-  {
-    localStorage.setItem(key, value);
-  }
+  if(typeof GM_getResourceURL === 'function')
+	{
+		Tamper =  true; // TamperMonkey
+		
+	}
+	function GM_getValue(key,defaultVal) 
+	{
+		var retValue = localStorage.getItem(key);
+		if ( !retValue ) 
+		{
+			return defaultVal;
+		}
+		return retValue;
+	}
+
+	function GM_setValue(key,value) 
+	{
+		localStorage.setItem(key, value);
+	}
+	
+	function GM_deleteValue(value) 
+	{
+		localStorage.removeItem(value);
+	}
+	function GM_log(value)
+	{
+		console.log(value);
+	}
 }
 // == Script KingsAge == 
 
@@ -37,45 +102,37 @@ if (document.getElementById('bb_code'))
   var RC_saved = GM_getValue('rc', '');
   RC_saved += document.getElementById('bb_code').innerHTML.replace(/<br>/g, '\n') + '\n\n\n-------------------------------';
   GM_setValue('rc', RC_saved);
-  
   var WinSize = GM_getValue('winsize', '');
   var defaultDisplay = GM_getValue('defaultdisplay', '');
-  
   var newElement = document.createElement('div'); // On crée la fenêtre
   newElement.innerHTML = '<center><textarea rows=' + WinSize + '; style="width:95%;align=center;resize:none;display:' + defaultDisplay + ';" id="textareaRC" onClick="javascript:this.select();" >' + RC_saved + '</textarea></center>';
   document.getElementById('bb_code').appendChild(newElement);
-  
   var newElement = document.createElement('span'); // On crée l'image qui ferme/ouvre la fenêtre
   newElement.innerHTML = '<img style="padding-left:2.5%;" src="http://image.noelshack.com/fichiers/2015/24/1434301080-fermer.png" title="Afficher/Fermer la fenêtre"/>'
   newElement.setAttribute('id', 'affichage');
   newElement.setAttribute('style', 'cursor:pointer;');
   document.getElementById('bb_code').appendChild(newElement);
-  
   var newElement = document.createElement('span'); // On crée l'image qui efface le contenu de la fenêtre
   newElement.innerHTML = '<img style="padding-left:0.5%;" src="http://image.noelshack.com/fichiers/2015/24/1434300992-effacer.png" title="Effacer les entrées"/>'
   newElement.setAttribute('id', 'deleteRc');
   newElement.setAttribute('style', 'cursor:pointer;');
   document.getElementById('bb_code').appendChild(newElement);
-  
   var newElement = document.createElement('span'); // On crée l'image qui augmente la taille de la fenêtre
   newElement.innerHTML = '<img style="padding-left:0.5%;" src="http://image.noelshack.com/fichiers/2015/24/1434300992-ecriture.png" title="Agrandir la taille de la fenêtre"/>'
   newElement.setAttribute('id', 'agrandir');
   newElement.setAttribute('style', 'cursor:pointer;');
   document.getElementById('bb_code').appendChild(newElement);
-  
-   var newElement = document.createElement('span'); // On crée l'image qui réduit la taille de la fenêtre
+  var newElement = document.createElement('span'); // On crée l'image qui réduit la taille de la fenêtre
   newElement.innerHTML = '<img style="padding-left:0.5%;" src="http://image.noelshack.com/fichiers/2015/24/1434303027-ecriturered.png" title="Réduire la taille de la fenêtre"/>'
   newElement.setAttribute('id', 'reduire');
   newElement.setAttribute('style', 'cursor:pointer;');
   document.getElementById('bb_code').appendChild(newElement);
-  
   // Fonction qui efface la fenêtre au clic
   document.getElementById('deleteRc').addEventListener('click', function (event)
   {
     GM_setValue('rc', '');
     document.getElementById('textareaRC').textContent = '';
   }, true);
-  
   // Fonction qui ferme la fenêtre au clic
   document.getElementById('affichage').addEventListener('click', function (event)
   {
@@ -93,7 +150,6 @@ if (document.getElementById('bb_code'))
       defaultDisplay = 'none';
     }
   }, false);
-  
   //Fonction qui augmente la taille de la fenêtre
   document.getElementById('agrandir').addEventListener('click', function (event)
   {
@@ -101,13 +157,13 @@ if (document.getElementById('bb_code'))
     {
       document.getElementById('textareaRC').rows = '30';
       GM_setValue('winsize', '30');
-      WinSize = 30;      
+      WinSize = 30;
     } 
     else
-    { WinSize += 5
+    {
+      WinSize += 5
       document.getElementById('textareaRC').rows = WinSize;
       GM_setValue('winsize', WinSize);
-      
       //document.getElementById('bb_code').getElementsByTagName('img') [2].title = 'Réduire la taille de la fenêtre';
     }
   }, true);
@@ -118,13 +174,13 @@ if (document.getElementById('bb_code'))
     {
       document.getElementById('textareaRC').rows = '5';
       GM_setValue('winsize', '5');
-      WinSize = 5;      
+      WinSize = 5;
     } 
     else
-    { WinSize -= 5
+    {
+      WinSize -= 5
       document.getElementById('textareaRC').rows = WinSize;
       GM_setValue('winsize', WinSize);
-      
       //document.getElementById('bb_code').getElementsByTagName('img') [2].title = 'Réduire la taille de la fenêtre';
     }
   }, true);
