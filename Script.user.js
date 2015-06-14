@@ -35,7 +35,7 @@ if (Chrome)
 if (document.getElementById('bb_code'))
 {
   var RC_saved = GM_getValue('rc', '');
-  RC_saved += document.getElementById('bb_code').innerHTML.replace(/<br>/g, '\n') + '\n\n';
+  RC_saved += document.getElementById('bb_code').innerHTML.replace(/<br>/g, '\n') + '\n\n\n-------------------------------';
   GM_setValue('rc', RC_saved);
   
   var WinSize = GM_getValue('winsize', '');
@@ -57,9 +57,15 @@ if (document.getElementById('bb_code'))
   newElement.setAttribute('style', 'cursor:pointer;');
   document.getElementById('bb_code').appendChild(newElement);
   
-  var newElement = document.createElement('span'); // On crée l'image qui augmente/réduit la taille de la fenêtre
-  newElement.innerHTML = '<img style="padding-left:0.5%;" src="http://image.noelshack.com/fichiers/2015/24/1434300992-ecriture.png" title="Agrandir/Réduire la taille de la fenêtre"/>'
+  var newElement = document.createElement('span'); // On crée l'image qui augmente la taille de la fenêtre
+  newElement.innerHTML = '<img style="padding-left:0.5%;" src="http://image.noelshack.com/fichiers/2015/24/1434300992-ecriture.png" title="Agrandir la taille de la fenêtre"/>'
   newElement.setAttribute('id', 'agrandir');
+  newElement.setAttribute('style', 'cursor:pointer;');
+  document.getElementById('bb_code').appendChild(newElement);
+  
+   var newElement = document.createElement('span'); // On crée l'image qui réduit la taille de la fenêtre
+  newElement.innerHTML = '<img style="padding-left:0.5%;" src="http://image.noelshack.com/fichiers/2015/24/1434303027-ecriturered.png" title="Réduire la taille de la fenêtre"/>'
+  newElement.setAttribute('id', 'reduire');
   newElement.setAttribute('style', 'cursor:pointer;');
   document.getElementById('bb_code').appendChild(newElement);
   
@@ -88,20 +94,37 @@ if (document.getElementById('bb_code'))
     }
   }, false);
   
-  //Fonction qui change la taille de la fenêtre
+  //Fonction qui augmente la taille de la fenêtre
   document.getElementById('agrandir').addEventListener('click', function (event)
+  {
+    if (WinSize == 30)
+    {
+      document.getElementById('textareaRC').rows = '30';
+      GM_setValue('winsize', '30');
+      WinSize = 30;      
+    } 
+    else
+    { WinSize += 5
+      document.getElementById('textareaRC').rows = WinSize;
+      GM_setValue('winsize', WinSize);
+      
+      //document.getElementById('bb_code').getElementsByTagName('img') [2].title = 'Réduire la taille de la fenêtre';
+    }
+  }, true);
+  //Fonction qui diminue la taille de la fenêtre
+  document.getElementById('reduire').addEventListener('click', function (event)
   {
     if (WinSize == 5)
     {
-      document.getElementById('textareaRC').rows = '20';
-      GM_setValue('winsize', '20');
-      WinSize = 20;      
-    } 
-    else
-    {
       document.getElementById('textareaRC').rows = '5';
       GM_setValue('winsize', '5');
-      WinSize = 5;
+      WinSize = 5;      
+    } 
+    else
+    { WinSize -= 5
+      document.getElementById('textareaRC').rows = WinSize;
+      GM_setValue('winsize', WinSize);
+      
       //document.getElementById('bb_code').getElementsByTagName('img') [2].title = 'Réduire la taille de la fenêtre';
     }
   }, true);
