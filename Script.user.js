@@ -38,7 +38,7 @@ if (Chrome)
 if (document.getElementById('bb_code'))
 {
   var RC_saved = GM_getValue('rc', '');
-  RC_saved += document.getElementById('bb_code').innerHTML.replace(/<br>/g, '\n').replace(/\[village\].*\[\/village\]/g,'').replace(/.*Combat d'évaluation.*suite à vos pertes au cours de ce combat et aux dégâts provoqués à l'ennemi, vos chances d'obtenir une pierre de bonne fortune ont augmenté.*/g,'');
+  RC_saved += document.getElementById('bb_code').innerHTML.replace(/<br>/g, '\n').replace(/<span class="zero">0<\/span>/g,'0').replace(/\[village\].*\[\/village\]/g,'').replace(/.*Combat d'évaluation.*suite à vos pertes au cours de ce combat et aux dégâts provoqués à l'ennemi, vos chances d'obtenir une pierre de bonne fortune ont augmenté.*/g,'');
   GM_setValue('rc', RC_saved);
 
   var WinSize = GM_getValue('winsize', '');
