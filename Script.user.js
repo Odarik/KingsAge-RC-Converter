@@ -46,19 +46,19 @@ if (document.getElementById('bb_code'))
   document.getElementById('bb_code').appendChild(newElement);
   
   var newElement = document.createElement('span'); // On crée l'image qui ferme/ouvre la fenêtre
-  newElement.innerHTML = '<img style="padding-left:2.5%;" src="http://s17.fr.kingsage.gameforge.com/img-layouts/_widget_night/widget_icon_3.png" title="Afficher/Fermer la fenêtre"/>'
+  newElement.innerHTML = '<img style="padding-left:2.5%;" src="http://image.noelshack.com/fichiers/2015/24/1434301080-fermer.png" title="Afficher/Fermer la fenêtre"/>'
   newElement.setAttribute('id', 'affichage');
   newElement.setAttribute('style', 'cursor:pointer;');
   document.getElementById('bb_code').appendChild(newElement);
   
   var newElement = document.createElement('span'); // On crée l'image qui efface le contenu de la fenêtre
-  newElement.innerHTML = '<img style="padding-left:0.5%;" src="http://s17.fr.kingsage.gameforge.com/img-layouts/_widget_night/widget_icon_2.png" title="Effacer les entrées"/>'
+  newElement.innerHTML = '<img style="padding-left:0.5%;" src="http://image.noelshack.com/fichiers/2015/24/1434300992-effacer.png" title="Effacer les entrées"/>'
   newElement.setAttribute('id', 'deleteRc');
   newElement.setAttribute('style', 'cursor:pointer;');
   document.getElementById('bb_code').appendChild(newElement);
   
   var newElement = document.createElement('span'); // On crée l'image qui augmente/réduit la taille de la fenêtre
-  newElement.innerHTML = '<img style="padding-left:0.5%;" src="http://s17.fr.kingsage.gameforge.com/img/arrow_right.png" title="Agrandir/Réduire la taille de la fenêtre"/>'
+  newElement.innerHTML = '<img style="padding-left:0.5%;" src="http://image.noelshack.com/fichiers/2015/24/1434300992-ecriture.png" title="Agrandir/Réduire la taille de la fenêtre"/>'
   newElement.setAttribute('id', 'agrandir');
   newElement.setAttribute('style', 'cursor:pointer;');
   document.getElementById('bb_code').appendChild(newElement);
