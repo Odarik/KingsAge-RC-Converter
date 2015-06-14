@@ -42,7 +42,7 @@ if (document.getElementById('bb_code'))
   var defaultDisplay = GM_getValue('defaultdisplay', '');
   
   var newElement = document.createElement('div'); // On crée la fenêtre
-  newElement.innerHTML = '<center><textarea rows=' + WinSize + '; style="width:95%;align=center;display:' + defaultDisplay + ';" id="textareaRC" onClick="javascript:this.select();" >' + RC_saved + '</textarea></center>';
+  newElement.innerHTML = '<center><textarea rows=' + WinSize + '; style="width:95%;align=center;resize:none;display:' + defaultDisplay + ';" id="textareaRC" onClick="javascript:this.select();" >' + RC_saved + '</textarea></center>';
   document.getElementById('bb_code').appendChild(newElement);
   
   var newElement = document.createElement('span'); // On crée l'image qui ferme/ouvre la fenêtre
