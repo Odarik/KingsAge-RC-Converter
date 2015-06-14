@@ -38,14 +38,14 @@ if (Chrome)
 if (document.getElementById('bb_code'))
 {
   var RC_saved = GM_getValue('rc', '');
-  RC_saved += document.getElementById('bb_code').innerHTML.replace(/<br>/g, '\n') + '\n\n\n-------------------------------';
+  RC_saved += document.getElementById('bb_code').innerHTML.replace(/<br>/g, '\n') + '\n\n';
   GM_setValue('rc', RC_saved);
   
   var WinSize = GM_getValue('winsize', '');
   var defaultDisplay = GM_getValue('defaultdisplay', '');
   
   var newElement = document.createElement('div'); // On crée la fenêtre
-  newElement.innerHTML = '<center><textarea rows=' + WinSize + '; style="width:95%;align=center;resize:none;display:' + defaultDisplay + ';" id="textareaRC" onClick="javascript:this.select();" >' + RC_saved + '</textarea></center>';
+  newElement.innerHTML = '<center><textarea rows=' + WinSize + '; style="width:95%;align=center;resize:none;display:' + defaultDisplay + ';" id="textareaRC">' + RC_saved + '</textarea></center>';
   document.getElementById('bb_code').appendChild(newElement);
   
   var newElement = document.createElement('span'); // On crée l'image qui ferme/ouvre la fenêtre
