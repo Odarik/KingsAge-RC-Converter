@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         KinksAge RC Exporter
 // @namespace    http://your.homepage/
-// @version      0.2
+// @version      1.0
 // @description  Script permettant de copier facilement le bb-code en masse de plusieurs rc différents afin de les poster sur le board officiel.
 // @author       Vulca & Toutatis
 // @include      http://*kingsage.gameforge.com/game.php?*=messages*
@@ -35,7 +35,7 @@ if (Chrome)
 if (document.getElementById('bb_code'))
 {
   var bouton = document.createElement('div'); //Affichage du bouton ajouter à côté de transmettre/supprimer
-  bouton.innerHTML = 'Ajouter à l\'exporteur'
+  bouton.innerHTML = 'Ajouter à KingsAge RC Converter'
   bouton.setAttribute('class', 'smallButton');
   bouton.setAttribute('id', 'ajouter');
   bouton.setAttribute('style', 'cursor:pointer;');
@@ -58,7 +58,7 @@ if (document.getElementById('bb_code'))
   var defaultDisplayText = GM_getValue('defaultdisplaytext', '');  
   
   var newElement = document.createElement('tr'); //Création du menu
-  newElement.innerHTML = '<td><img src="http://s17.fr.kingsage.gameforge.com/img/arrow_right_raquo.png" alt="" /><span class="click" id="affichage"> KingsAge RC exporter</span><br/></td>';
+  newElement.innerHTML = '<td><img src="http://s17.fr.kingsage.gameforge.com/img/arrow_right_raquo.png" alt="" /><span class="click" id="affichage"> KingsAge RC Converter</span><br/></td>';
   document.querySelectorAll('table .borderlist') [6].appendChild(newElement);
    
   var newElement = document.createElement('div'); // On crée la fenêtre
