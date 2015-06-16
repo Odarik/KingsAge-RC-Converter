@@ -5,6 +5,8 @@
 // @description  Script permettant de copier facilement le bb-code en masse de plusieurs rc différents afin de les poster sur le board officiel.
 // @author       Vulca & Toutatis
 // @include      http://*kingsage.gameforge.com/game.php?*=messages*
+// @updateURL   https://github.com/Odarik/KingsAge-RC-Converter/blob/master/Scriptvulca.user.js
+// @downloadURL https://github.com/Odarik/KingsAge-RC-Converter/blob/master/Scriptvulca.user.js
 // @grant		   GM_getValue
 // @grant		   GM_setValue
 // ==/UserScript==
