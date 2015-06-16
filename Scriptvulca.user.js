@@ -50,6 +50,7 @@ if (document.getElementById('bb_code'))
     var RC_add = document.getElementById('bb_code').innerHTML.replace(/<br>/g, '\n').replace(/<span class="zero">0<\/span>/g, '0').replace(/\[village\].*\[\/village\]/g, '').replace(/.*Combat d'évaluation.*suite à vos pertes au cours de ce combat et aux dégâts provoqués à l'ennemi, vos chances d'obtenir une pierre de bonne fortune ont augmenté.*/g, '');
     RC_saved += RC_add;
     GM_setValue('rc', RC_saved); 
+    document.getElementById('textareaRC').innerHTML=RC_saved;
   }, true);
     
   var WinSize = GM_getValue('winsize', '');
@@ -61,7 +62,7 @@ if (document.getElementById('bb_code'))
   document.querySelectorAll('table .borderlist') [6].appendChild(newElement);
    
   var newElement = document.createElement('div'); // On crée la fenêtre
-  newElement.innerHTML = '<span id="spanareaRC" style="display:' + defaultDisplay + ';padding-top:2px;"><img id="affichageText" style="padding-left:2.5%;cursor:pointer;" src="http://image.noelshack.com/fichiers/2015/24/1434301080-fermer.png" title="Afficher/Fermer la fenêtre"/><img id="deleteRc" style="padding-left:0.5%;cursor:pointer;" src="http://image.noelshack.com/fichiers/2015/24/1434300992-effacer.png" title="Effacer les entrées"/><img id="agrandir" style="padding-left:0.5%;cursor:pointer;" src="http://image.noelshack.com/fichiers/2015/24/1434303027-ecriturered.png" title="Agrandir la taille de la fenêtre"/><img id="reduire" style="padding-left:0.5%;cursor:pointer;" src="http://image.noelshack.com/fichiers/2015/24/1434300992-ecriture.png" title="Réduire la taille de la fenêtre"/></td><center><textarea rows=' + WinSize + '; style="width:95%;align=center;resize:none;display:' + defaultDisplayText + ';" id="textareaRC">' + RC_saved + '</textarea></center></span>';
+  newElement.innerHTML = '<span id="spanareaRC" style="display:' + defaultDisplay + ';padding-top:3px;"><img id="affichageText" style="padding-left:2.5%;cursor:pointer;" src="http://image.noelshack.com/fichiers/2015/24/1434301080-fermer.png" title="Afficher/Fermer la fenêtre"/><img id="deleteRc" style="padding-left:0.5%;cursor:pointer;" src="http://image.noelshack.com/fichiers/2015/24/1434300992-effacer.png" title="Effacer les entrées"/><img id="agrandir" style="padding-left:0.5%;cursor:pointer;" src="http://image.noelshack.com/fichiers/2015/24/1434303027-ecriturered.png" title="Agrandir la taille de la fenêtre"/><img id="reduire" style="padding-left:0.5%;cursor:pointer;" src="http://image.noelshack.com/fichiers/2015/24/1434300992-ecriture.png" title="Réduire la taille de la fenêtre"/></td><center><textarea rows=' + WinSize + '; style="width:95%;align=center;resize:none;display:' + defaultDisplayText + ';" id="textareaRC">' + RC_saved + '</textarea></center></span>';
   document.querySelectorAll('table .borderlist') [6].querySelectorAll('tr')[5].querySelectorAll('td')[0].appendChild(newElement);
   
   // Fonction qui ouvre/ferme KingsAge RC exporter
