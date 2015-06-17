@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name         KinksAge RC Exporter
 // @namespace    http://your.homepage/
-// @version      1.5
+// @version      1.0.1
 // @description  Script permettant de copier facilement le bb-code en masse de plusieurs rc différents afin de les poster sur le board officiel.
 // @author       Vulca & Toutatis
 // @include      http://*kingsage.gameforge.com/game.php?*=messages*
-// @updateURL   https://github.com/Odarik/KingsAge-RC-Converter/blob/master/Scriptvulca.user.js
-// @downloadURL https://github.com/Odarik/KingsAge-RC-Converter/blob/master/Scriptvulca.user.js
+// @updateURL   https://github.com/Odarik/KingsAge-RC-Converter/blob/master/Script.user.js
+// @downloadURL https://github.com/Odarik/KingsAge-RC-Converter/blob/master/Script.user.js
 // @grant		   GM_getValue
 // @grant		   GM_setValue
 // ==/UserScript==
@@ -43,15 +43,32 @@ if (document.getElementById('bb_code'))
   bouton.setAttribute('style', 'cursor:pointer;');
   document.querySelectorAll('.smallButton') [1].parentNode.appendChild(bouton);
   
+  function anim() 
+  {
+    var newElement = document.createElement('div'); //Création du menu
+    newElement.innerHTML = '<img src="http://s17.fr.kingsage.gameforge.com/img/arrow_right_raquo.png" alt="" />';
+    document.querySelectorAll('.smallButton') [1].parentNode.appendChild(newElement);
+  }
   
   var RC_saved = GM_getValue('rc', '');
   
   // Fonction qui ajoute le rc
   document.getElementById('ajouter').addEventListener('click', function (event)
   { 
-    var RC_add = document.getElementById('bb_code').innerHTML.replace(/<br>/g, '\n').replace(/<span class="zero">0<\/span>/g, '0').replace(/\[village\].*\[\/village\]/g, '').replace(/.*Combat d'évaluation.*suite à vos pertes au cours de ce combat et aux dégâts provoqués à l'ennemi, vos chances d'obtenir une pierre de bonne fortune ont augmenté.*/g, '');
+    // Gestion des infos supprimées 
+    var RC_add = document.getElementById('bb_code').innerHTML.replace(/<br>/g, '\n'); //Remplace les sauts de ligne en code html par des sauts de lignes
+    RC_add = RC_add.replace(/<span class="zero">0<\/span>/g, '0'); //Remplace le résultat 0 écrit en html par un 0
+    RC_add = RC_add.replace(/\[village\].*\[\/village\]/g, ''); //Enlève les coordonnées des villages
+    RC_add = RC_add.replace(/.*Combat d'évaluation.*suite à vos pertes au cours de ce combat et aux dégâts provoqués à l'ennemi, vos chances d'obtenir une pierre de bonne fortune ont augmenté.*/g, ''); //Enlève le message des pierres 
+    RC_add = RC_add.replace(/\(.*\|.*\)/g,'') //Enlève les coordonnées du village dans le titre mais laisse le nom du village 
+    RC_add = RC_add.replace(/\[player\](.*)\[\/player\]/g,'$1'); //Remplace le code [player]Nom[/player] par le Nom
+    
+    
+    
     RC_saved += RC_add;
     GM_setValue('rc', RC_saved); 
+    //setInterval(anim,50); faux
+    
     document.getElementById('textareaRC').innerHTML=RC_saved;
   }, true);
     
@@ -75,7 +92,6 @@ if (document.getElementById('bb_code'))
       GM_setValue('defaultdisplay', 'block');
       defaultDisplay = 'block';
       document.getElementById('spanareaRC').style.display = 'block';
-      //document.getElementById('bb_code').getElementsByTagName('img') [0].title = 'Fermer la fenêtre';
     } 
     else
     {
@@ -122,8 +138,7 @@ if (document.getElementById('bb_code'))
     {
       WinSize += 5
       document.getElementById('textareaRC').rows = WinSize;
-      GM_setValue('winsize', WinSize);
-      //document.getElementById('bb_code').getElementsByTagName('img') [2].title = 'Réduire la taille de la fenêtre';
+      GM_setValue('winsize', WinSize);      
     }
   }, true);
   
@@ -140,8 +155,7 @@ if (document.getElementById('bb_code'))
     {
       WinSize -= 5
       document.getElementById('textareaRC').rows = WinSize;
-      GM_setValue('winsize', WinSize);
-      //document.getElementById('bb_code').getElementsByTagName('img') [2].title = 'Réduire la taille de la fenêtre';
+      GM_setValue('winsize', WinSize);      
     }
   }, true);
 }
