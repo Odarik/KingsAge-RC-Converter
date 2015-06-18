@@ -58,9 +58,8 @@ if (document.getElementById('bb_code')) //Vérifie s'il y a du bb_code dans le m
   }
   
   var RC_saved = GM_getValue('rc', '');
-  var Ressource = GM_getValue('ressource', '');
-  
-  // Fonction qui ajoute le rc
+    
+  //Fonction qui ajoute le rc
   document.getElementById('ajouter').addEventListener('click', function (event)
   { 
     //Gestion des infos supprimées
@@ -68,7 +67,9 @@ if (document.getElementById('bb_code')) //Vérifie s'il y a du bb_code dans le m
     RC_add = RC_add.replace(/<br>/g, '\n');//Remplace les sauts de ligne en code html par des sauts de lignes
     RC_add = RC_add.replace(/<span class="zero">0<\/span>/g, '0'); //Remplace le résultat 0 écrit en html par un 0
     RC_add = RC_add.replace(/\[village\].*\[\/village\]/g, ''); //Enlève les coordonnées des villages
-    RC_add = RC_add.replace(/.*Combat d'évaluation.*suite à vos pertes au cours de ce combat et aux dégâts provoqués à l'ennemi, vos chances d'obtenir une pierre de bonne fortune ont augmenté.*/g, ''); //Enlève le message des pierres 
+    RC_add = RC_add.replace(/.*Combat d'évaluation.*suite à vos pertes au cours de ce combat et aux dégâts provoqués à l'ennemi, vos chances d'obtenir une pierre de bonne fortune ont augmenté.*/g, ''); //Enlève le message combat d'évaluation
+    RC_add = RC_add.replace(/\[b\]Vous avez gagné une pierre de bonne fortune !/g,'') //Message gain de pierre : titre
+    RC_add = RC_add.replace(/Servez-vous-en.*\[\/b\]/g,'') //Message gain de pierre : texte       
     RC_add = RC_add.replace(/\([0-9]*\|[0-9]*\)/g,'') //Enlève les coordonnées du village dans le titre mais laisse le nom du village 
     RC_add = RC_add.replace(/\[player\](.*)\[\/player\]/g,'$1'); //Remplace le code [player]Nom[/player] par le Nom
     RC_add = RC_add.replace(/<b>([0-9]*)<\/b>/g,'\[b\]$1\[\/b\]'); //Remplace les balises html Gras en balise BB_code Gras
@@ -88,7 +89,7 @@ if (document.getElementById('bb_code')) //Vérifie s'il y a du bb_code dans le m
   
   //Variable des options qui sont sauvegardés selon le choix des utilisateurs.
   var WinSize = GM_getValue('winsize', '');
- 
+  var Ressource = GM_getValue('ressource', '');
   var imgRessource = GM_getValue('imgressource','http://image.noelshack.com/fichiers/2015/25/1434585646-invalideressource.png')
   var defaultDisplay = GM_getValue('defaultdisplay', '');  
   var defaultDisplayText = GM_getValue('defaultdisplaytext', '');
@@ -96,7 +97,6 @@ if (document.getElementById('bb_code')) //Vérifie s'il y a du bb_code dans le m
   var newElement = document.createElement('tr'); //Création du menu en bas de la page
   newElement.innerHTML = '<td><img src="http://s17.fr.kingsage.gameforge.com/img/arrow_right_raquo.png" alt="" /><span class="click" id="affichage"> KingsAge RC Converter</span><br/></td>';
   document.querySelectorAll('table .borderlist')[(document.querySelectorAll('table .borderlist').length)-2].appendChild(newElement);  
-  
   
   var newElement = document.createElement('div'); //Cféation de la fenêtre et du menu des icones
   newElement.innerHTML = '<span id="spanareaRC" style="display:' + defaultDisplay + ';padding-top:3px;"><img id="affichageText" style="padding-left:2.5%;cursor:pointer;display:inline-block;" src="http://image.noelshack.com/fichiers/2015/24/1434301080-fermer.png" title="Afficher/Fermer la fenêtre"/><img id="deleteRc" style="padding-left:0.5%;cursor:pointer;display:inline-block;" src="http://image.noelshack.com/fichiers/2015/24/1434300992-effacer.png" title="Effacer les entrées"/><img id="agrandir" style="padding-left:0.5%;cursor:pointer;display:inline-block;" src="http://image.noelshack.com/fichiers/2015/24/1434303027-ecriturered.png" title="Agrandir la taille de la fenêtre"/><img id="reduire" style="padding-left:0.5%;cursor:pointer;display:inline-block;" src="http://image.noelshack.com/fichiers/2015/24/1434300992-ecriture.png" title="Réduire la taille de la fenêtre"/><span style="padding-left:0.5%;display:inline-block;vertical-align:3px;">Ressources :</span><img id="ressourceRC" style="padding-left:0.5%;cursor:pointer;display:inline-block;" src="' + imgRessource + '" title="Afficher les ressources pillés dans le rc."/></td><center><textarea rows=' + WinSize + '; style="width:95%;align=center;resize:none;display:' + defaultDisplayText + ';" id="textareaRC">' + RC_saved + '</textarea></center></span>';
