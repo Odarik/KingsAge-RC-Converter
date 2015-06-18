@@ -58,22 +58,27 @@ if (document.getElementById('bb_code')) //Vérifie s'il y a du bb_code dans le m
   }
   
   var RC_saved = GM_getValue('rc', '');
+  var Ressource = GM_getValue('ressource', '');
   
-  //Fonction qui ajoute le rc
+  // Fonction qui ajoute le rc
   document.getElementById('ajouter').addEventListener('click', function (event)
   { 
     //Gestion des infos supprimées
-    var RC_add = document.getElementById('bb_code').innerHTML.replace(/<br>\[b\]\[\/b\]<br>/g, ''); //Enlève un bug d'affichage sur les RC qui sont transférés. Saut de ligne trop grand avec balise gras vide au milieu.
+    var RC_add = document.getElementById('bb_code').innerHTML.replace(/<br>\[b\]\[\/b\]<br>/g, ''); //Enlève un bug d'affichage sur les RC qui sont transférés. Saut de ligne trop grand avec balise gras vide au milieu. 
     RC_add = RC_add.replace(/<br>/g, '\n');//Remplace les sauts de ligne en code html par des sauts de lignes
     RC_add = RC_add.replace(/<span class="zero">0<\/span>/g, '0'); //Remplace le résultat 0 écrit en html par un 0
     RC_add = RC_add.replace(/\[village\].*\[\/village\]/g, ''); //Enlève les coordonnées des villages
     RC_add = RC_add.replace(/.*Combat d'évaluation.*suite à vos pertes au cours de ce combat et aux dégâts provoqués à l'ennemi, vos chances d'obtenir une pierre de bonne fortune ont augmenté.*/g, ''); //Enlève le message des pierres 
     RC_add = RC_add.replace(/\([0-9]*\|[0-9]*\)/g,'') //Enlève les coordonnées du village dans le titre mais laisse le nom du village 
     RC_add = RC_add.replace(/\[player\](.*)\[\/player\]/g,'$1'); //Remplace le code [player]Nom[/player] par le Nom
-    //if Ressource=inactif blabla alors on enleve fonction a faire
     RC_add = RC_add.replace(/<b>([0-9]*)<\/b>/g,'\[b\]$1\[\/b\]'); //Remplace les balises html Gras en balise BB_code Gras
-    
-    
+    //Enlève si la case ressource est décoché les pillages.
+    if (Ressource == 'inactif')
+      {
+        RC_add = RC_add.replace(/\[b\]Ressources pillées: \[\/b\]/g, '');
+        RC_add = RC_add.replace(/\[img\].*\([0-9.]*\/[0-9.]*\)/g, '');
+      }
+    RC_add = RC_add.replace(/\n\n\n\n/g,'\n'); //Supprime les trop grand nombres de saut de ligne après modification pour une mise en page plus jolie.
     RC_saved += RC_add;
     GM_setValue('rc', RC_saved); 
     document.getElementById('validation').style.visibility='visible'; 
@@ -83,7 +88,7 @@ if (document.getElementById('bb_code')) //Vérifie s'il y a du bb_code dans le m
   
   //Variable des options qui sont sauvegardés selon le choix des utilisateurs.
   var WinSize = GM_getValue('winsize', '');
-  var Ressource = GM_getValue('ressource', 'inactif');
+ 
   var imgRessource = GM_getValue('imgressource','http://image.noelshack.com/fichiers/2015/25/1434585646-invalideressource.png')
   var defaultDisplay = GM_getValue('defaultdisplay', '');  
   var defaultDisplayText = GM_getValue('defaultdisplaytext', '');
