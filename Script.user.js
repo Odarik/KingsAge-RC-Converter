@@ -62,14 +62,16 @@ if (document.getElementById('bb_code')) //Vérifie s'il y a du bb_code dans le m
   // Fonction qui ajoute le rc
   document.getElementById('ajouter').addEventListener('click', function (event)
   { 
-    // Gestion des infos supprimées 
-    var RC_add = document.getElementById('bb_code').innerHTML.replace(/<br>/g, '\n'); //Remplace les sauts de ligne en code html par des sauts de lignes
+    // Gestion des infos supprimées <br />[b][/b]<br />
+    var RC_add = document.getElementById('bb_code').innerHTML.replace(/<br>\[b\]\[\/b\]<br>/g, ''); //Enlève un bug d'affichage sur les RC qui sont transférés. Saut de ligne trop grand avec balise gras vide au milieu.
+    RC_add = RC_add.replace(/<br>/g, '\n');//Remplace les sauts de ligne en code html par des sauts de lignes
     RC_add = RC_add.replace(/<span class="zero">0<\/span>/g, '0'); //Remplace le résultat 0 écrit en html par un 0
     RC_add = RC_add.replace(/\[village\].*\[\/village\]/g, ''); //Enlève les coordonnées des villages
-    //RC_add = RC_add.replace(/.*Combat d'évaluation.*suite à vos pertes au cours de ce combat et aux dégâts provoqués à l'ennemi, vos chances d'obtenir une pierre de bonne fortune ont augmenté.*/g, ''); //Enlève le message des pierres 
-    RC_add = RC_add.replace(/\(.*\|.*\)/g,'') //Enlève les coordonnées du village dans le titre mais laisse le nom du village 
+    RC_add = RC_add.replace(/.*Combat d'évaluation.*suite à vos pertes au cours de ce combat et aux dégâts provoqués à l'ennemi, vos chances d'obtenir une pierre de bonne fortune ont augmenté.*/g, ''); //Enlève le message des pierres 
+    RC_add = RC_add.replace(/\([0-9]*\|[0-9]*\)/g,'') //Enlève les coordonnées du village dans le titre mais laisse le nom du village 
     RC_add = RC_add.replace(/\[player\](.*)\[\/player\]/g,'$1'); //Remplace le code [player]Nom[/player] par le Nom
-    //if Ressource=inactif blabla alors on enleve
+    //if Ressource=inactif blabla alors on enleve fonction a faire
+    RC_add = RC_add.replace(/<b>([0-9]*)<\/b>/g,'\[b\]$1\[\/b\]'); //Remplace les balises html Gras en balise BB_code Gras
     
     
     RC_saved += RC_add;
@@ -90,9 +92,10 @@ if (document.getElementById('bb_code')) //Vérifie s'il y a du bb_code dans le m
   newElement.innerHTML = '<td><img src="http://s17.fr.kingsage.gameforge.com/img/arrow_right_raquo.png" alt="" /><span class="click" id="affichage"> KingsAge RC Converter</span><br/></td>';
   document.querySelectorAll('table .borderlist')[(document.querySelectorAll('table .borderlist').length)-2].appendChild(newElement);  
   
+  
   var newElement = document.createElement('div'); //Cféation de la fenêtre et du menu des icones
   newElement.innerHTML = '<span id="spanareaRC" style="display:' + defaultDisplay + ';padding-top:3px;"><img id="affichageText" style="padding-left:2.5%;cursor:pointer;display:inline-block;" src="http://image.noelshack.com/fichiers/2015/24/1434301080-fermer.png" title="Afficher/Fermer la fenêtre"/><img id="deleteRc" style="padding-left:0.5%;cursor:pointer;display:inline-block;" src="http://image.noelshack.com/fichiers/2015/24/1434300992-effacer.png" title="Effacer les entrées"/><img id="agrandir" style="padding-left:0.5%;cursor:pointer;display:inline-block;" src="http://image.noelshack.com/fichiers/2015/24/1434303027-ecriturered.png" title="Agrandir la taille de la fenêtre"/><img id="reduire" style="padding-left:0.5%;cursor:pointer;display:inline-block;" src="http://image.noelshack.com/fichiers/2015/24/1434300992-ecriture.png" title="Réduire la taille de la fenêtre"/><span style="padding-left:0.5%;display:inline-block;vertical-align:3px;">Ressources :</span><img id="ressourceRC" style="padding-left:0.5%;cursor:pointer;display:inline-block;" src="' + imgRessource + '" title="Afficher les ressources pillés dans le rc."/></td><center><textarea rows=' + WinSize + '; style="width:95%;align=center;resize:none;display:' + defaultDisplayText + ';" id="textareaRC">' + RC_saved + '</textarea></center></span>';
-  document.querySelectorAll('table .borderlist') [(document.querySelectorAll('table .borderlist').length)-2].querySelectorAll('tr')[5].querySelectorAll('td')[0].appendChild(newElement);
+  document.querySelectorAll('table .borderlist') [(document.querySelectorAll('table .borderlist').length)-2].querySelectorAll('tr')[(document.querySelectorAll('table .borderlist') [(document.querySelectorAll('table .borderlist').length)-2].querySelectorAll('tr')).length-1].querySelectorAll('td')[0].appendChild(newElement);
  
   //Fonction qui ouvre/ferme KingsAge RC exporter
   document.getElementById('affichage').addEventListener('click', function (event)
