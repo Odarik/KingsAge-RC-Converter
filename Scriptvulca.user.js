@@ -43,11 +43,16 @@ if (document.getElementById('bb_code'))
   bouton.setAttribute('style', 'cursor:pointer;');
   document.querySelectorAll('.smallButton') [1].parentNode.appendChild(bouton);
   
+  
+  var newElement = document.createElement('div'); //Test v2
+  newElement.innerHTML = '<img style="padding-left:5px;padding-top:7px;" src="http://image.noelshack.com/fichiers/2015/25/1434590290-valid3e.png" alt="" />';
+  newElement.setAttribute('id', 'validation');
+  newElement.setAttribute('style', 'visibility:hidden;');
+  document.querySelectorAll('.smallButton') [1].parentNode.appendChild(newElement);
+  
   function anim() 
   {
-    var newElement = document.createElement('div'); //Création du menu
-    newElement.innerHTML = '<img src="http://s17.fr.kingsage.gameforge.com/img/arrow_right_raquo.png" alt="" />';
-    document.querySelectorAll('.smallButton') [1].parentNode.appendChild(newElement);
+    document.getElementById('validation').style.visibility='hidden';
   }
   
   var RC_saved = GM_getValue('rc', '');
@@ -67,21 +72,26 @@ if (document.getElementById('bb_code'))
     
     RC_saved += RC_add;
     GM_setValue('rc', RC_saved); 
-    //setInterval(anim,50); faux
-    
+    document.getElementById('validation').style.visibility='visible'; 
+    setTimeout(anim,1000);    
     document.getElementById('textareaRC').innerHTML=RC_saved;
   }, true);
     
   var WinSize = GM_getValue('winsize', '');
+  var Ressource = GM_getValue('ressource', 'inactif');
   var defaultDisplay = GM_getValue('defaultdisplay', '');  
   var defaultDisplayText = GM_getValue('defaultdisplaytext', '');  
+  GM_setValue('ressource', 'inactif');
   
   var newElement = document.createElement('tr'); //Création du menu
   newElement.innerHTML = '<td><img src="http://s17.fr.kingsage.gameforge.com/img/arrow_right_raquo.png" alt="" /><span class="click" id="affichage"> KingsAge RC Converter</span><br/></td>';
   document.querySelectorAll('table .borderlist') [6].appendChild(newElement);
-   
-  var newElement = document.createElement('div'); // On crée la fenêtre
-  newElement.innerHTML = '<span id="spanareaRC" style="display:' + defaultDisplay + ';padding-top:3px;"><img id="affichageText" style="padding-left:2.5%;cursor:pointer;" src="http://image.noelshack.com/fichiers/2015/24/1434301080-fermer.png" title="Afficher/Fermer la fenêtre"/><img id="deleteRc" style="padding-left:0.5%;cursor:pointer;" src="http://image.noelshack.com/fichiers/2015/24/1434300992-effacer.png" title="Effacer les entrées"/><img id="agrandir" style="padding-left:0.5%;cursor:pointer;" src="http://image.noelshack.com/fichiers/2015/24/1434303027-ecriturered.png" title="Agrandir la taille de la fenêtre"/><img id="reduire" style="padding-left:0.5%;cursor:pointer;" src="http://image.noelshack.com/fichiers/2015/24/1434300992-ecriture.png" title="Réduire la taille de la fenêtre"/></td><center><textarea rows=' + WinSize + '; style="width:95%;align=center;resize:none;display:' + defaultDisplayText + ';" id="textareaRC">' + RC_saved + '</textarea></center></span>';
+  
+  
+  
+  
+  var newElement = document.createElement('div'); // On crée la fenêtre et le menu icone
+  newElement.innerHTML = '<span id="spanareaRC" style="display:' + defaultDisplay + ';padding-top:3px;"><img id="affichageText" style="padding-left:2.5%;cursor:pointer;display:inline-block;" src="http://image.noelshack.com/fichiers/2015/24/1434301080-fermer.png" title="Afficher/Fermer la fenêtre"/><img id="deleteRc" style="padding-left:0.5%;cursor:pointer;display:inline-block;" src="http://image.noelshack.com/fichiers/2015/24/1434300992-effacer.png" title="Effacer les entrées"/><img id="agrandir" style="padding-left:0.5%;cursor:pointer;display:inline-block;" src="http://image.noelshack.com/fichiers/2015/24/1434303027-ecriturered.png" title="Agrandir la taille de la fenêtre"/><img id="reduire" style="padding-left:0.5%;cursor:pointer;display:inline-block;" src="http://image.noelshack.com/fichiers/2015/24/1434300992-ecriture.png" title="Réduire la taille de la fenêtre"/><span style="padding-left:0.5%;display:inline-block;vertical-align:3px;">Ressources :</span><img id="ressourceRC" style="padding-left:0.5%;cursor:pointer;display:inline-block;" src="http://image.noelshack.com/fichiers/2015/25/1434585646-invalideressource.png" title="Afficher les ressources pillés dans le rc."/></td><center><textarea rows=' + WinSize + '; style="width:95%;align=center;resize:none;display:' + defaultDisplayText + ';" id="textareaRC">' + RC_saved + '</textarea></center></span>';
   document.querySelectorAll('table .borderlist') [6].querySelectorAll('tr')[5].querySelectorAll('td')[0].appendChild(newElement);
   
   // Fonction qui ouvre/ferme KingsAge RC exporter
@@ -157,5 +167,19 @@ if (document.getElementById('bb_code'))
       document.getElementById('textareaRC').rows = WinSize;
       GM_setValue('winsize', WinSize);      
     }
+  }, true);
+  
+  document.getElementById('ressourceRC').addEventListener('click', function (event)
+  { 
+    if (Ressource == 'inactif')
+    {
+      document.getElementById('ressourceRC').src="http://image.noelshack.com/fichiers/2015/25/1434585646-valideressource.png";    
+      Ressource = 'actif'
+    }
+    else
+      {
+        document.getElementById('ressourceRC').src="http://image.noelshack.com/fichiers/2015/25/1434585646-invalideressource.png"; 
+        Ressource = 'inactif'
+      }
   }, true);
 }
