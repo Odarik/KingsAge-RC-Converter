@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         KinksAge RC Exporter
 // @namespace    http://your.homepage/
-// @version      2.0.3
+// @version      2.0.1
 // @description  Script permettant de copier facilement le bb-code en masse de plusieurs rc différents afin de les poster sur le board officiel.
 // @author       Vulca & Toutatis
 // @include      http://*kingsage.gameforge.com/game.php?*=messages*
@@ -83,15 +83,17 @@ if (document.getElementById('bb_code')) //Vérifie s'il y a du bb_code dans le m
         RC_add = RC_add.replace(/\[img\].*\([0-9.]*\/[0-9.]*\)/g, '');
       }
     //Laisser ces 4 lignes en dernières c'est question de mise en page finale, post changement.
+    RC_add = RC_add.replace(/&nbsp;/g,' ');
     RC_add = RC_add.replace(/\n\n\n\n/g,'\n'); //Supprime les trop grand nombres de saut de ligne après modification pour une mise en page plus jolie.
     RC_add = RC_add.replace(/\n\n\n/g,'\n\n'); //Supprime les trop grand nombres de saut de ligne après modification pour une mise en page plus jolie. 
     RC_add = RC_add.replace(/<b>/g,'') //Supprime certaines balises html qui s'affiche inutilement.
     RC_add = RC_add.replace(/<\/b>/g,'') //Supprime certaines balises html qui s'affiche inutilement.
-    RC_saved += RC_add + '\n';
+    RC_saved += RC_add;
     GM_setValue('rc', RC_saved); 
     document.getElementById('validation').style.visibility='visible'; 
     setTimeout(anim,1000);    
-    document.getElementById('textareaRC').innerHTML=RC_saved;
+    document.getElementById('textareaRC').value = RC_saved;
+    //document.getElementById('textareaRC').innerHTML=RC_saved;
   }, true);
   
   //Variable des options qui sont sauvegardés selon le choix des utilisateurs.
@@ -106,7 +108,7 @@ if (document.getElementById('bb_code')) //Vérifie s'il y a du bb_code dans le m
   document.querySelectorAll('table .borderlist')[(document.querySelectorAll('table .borderlist').length)-2].appendChild(newElement);  
   
   var newElement = document.createElement('div'); //Création de la fenêtre et du menu des icones
-  newElement.innerHTML = '<span id="spanareaRC" style="display:' + defaultDisplay + ';padding-top:3px;"><img id="affichageText" style="padding-left:2.5%;cursor:pointer;display:inline-block;" src="http://image.noelshack.com/fichiers/2015/24/1434301080-fermer.png" title="Afficher/Fermer la fenêtre"/><img id="deleteRc" style="padding-left:0.5%;cursor:pointer;display:inline-block;" src="http://image.noelshack.com/fichiers/2015/24/1434300992-effacer.png" title="Effacer les entrées"/><img id="agrandir" style="padding-left:0.5%;cursor:pointer;display:inline-block;" src="http://image.noelshack.com/fichiers/2015/24/1434303027-ecriturered.png" title="Agrandir la taille de la fenêtre"/><img id="reduire" style="padding-left:0.5%;cursor:pointer;display:inline-block;" src="http://image.noelshack.com/fichiers/2015/24/1434300992-ecriture.png" title="Réduire la taille de la fenêtre"/><span style="padding-left:0.5%;display:inline-block;vertical-align:3px;">Ressources pillées :</span><img id="ressourceRC" style="padding-left:0.5%;cursor:pointer;display:inline-block;" src="' + imgRessource + '" title="Afficher les ressources pillés dans le rc."/></td><center><textarea rows=' + WinSize + '; style="width:95%;align=center;resize:none;display:' + defaultDisplayText + ';" id="textareaRC">' + RC_saved + '</textarea></center></span>';
+  newElement.innerHTML = '<span id="spanareaRC" style="display:' + defaultDisplay + ';padding-top:3px;"><img id="affichageText" style="padding-left:2.5%;cursor:pointer;display:inline-block;" src="http://image.noelshack.com/fichiers/2015/24/1434301080-fermer.png" title="Afficher/Fermer la fenêtre"/><img id="deleteRc" style="padding-left:0.5%;cursor:pointer;display:inline-block;" src="http://image.noelshack.com/fichiers/2015/24/1434300992-effacer.png" title="Effacer les entrées"/><img id="agrandir" style="padding-left:0.5%;cursor:pointer;display:inline-block;" src="http://image.noelshack.com/fichiers/2015/24/1434303027-ecriturered.png" title="Agrandir la taille de la fenêtre"/><img id="reduire" style="padding-left:0.5%;cursor:pointer;display:inline-block;" src="http://image.noelshack.com/fichiers/2015/24/1434300992-ecriture.png" title="Réduire la taille de la fenêtre"/><span style="padding-left:0.5%;display:inline-block;vertical-align:3px;">Ressources pillées :</span><img id="ressourceRC" style="padding-left:0.5%;cursor:pointer;display:inline-block;" src="' + imgRessource + '" title="Afficher les ressources pillés dans le rc."/></td><center><textarea rows=' + WinSize + ';  style="width:95%;align=center;resize:none;display:' + defaultDisplayText + ';" id="textareaRC">' + RC_saved + '</textarea></center></span>';
   document.querySelectorAll('table .borderlist') [(document.querySelectorAll('table .borderlist').length)-2].querySelectorAll('tr')[(document.querySelectorAll('table .borderlist') [(document.querySelectorAll('table .borderlist').length)-2].querySelectorAll('tr')).length-1].querySelectorAll('td')[0].appendChild(newElement);
  
   //Fonction qui calcule le nombre de caractère qui ont été sélectionné.
@@ -115,7 +117,7 @@ if (document.getElementById('bb_code')) //Vérifie s'il y a du bb_code dans le m
      var X = document.getElementById ("textareaRC");
      debut = X.selectionStart;
      fin = X.selectionEnd;
-     selection = X.innerHTML.substring(debut, fin);
+     selection = X.value.substring(debut, fin);
      if (selection.length > 10000) //Si c'est supérieur, cela l'affiche en rouge. (Rajouter une image peut etre avec visibility:hidden/visible etc)
        {
          mySpan.innerHTML = selection.length;
@@ -154,7 +156,7 @@ if (document.getElementById('bb_code')) //Vérifie s'il y a du bb_code dans le m
   document.getElementById('deleteRc').addEventListener('click', function (event)
   { RC_saved = '';
     GM_setValue('rc', '');
-    document.getElementById('textareaRC').textContent = '';
+    document.getElementById('textareaRC').value = '';
   }, true);
   
   //Fonction qui ouvre/ferme le textarea
