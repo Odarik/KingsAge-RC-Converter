@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         KinksAge RC Exporter
 // @namespace    http://your.homepage/
-// @version      1.5.1
+// @version      2.0.1
 // @description  Script permettant de copier facilement le bb-code en masse de plusieurs rc différents afin de les poster sur le board officiel.
 // @author       Vulca & Toutatis
 // @include      http://*kingsage.gameforge.com/game.php?*=messages*
@@ -80,7 +80,7 @@ if (document.getElementById('bb_code')) //Vérifie s'il y a du bb_code dans le m
         RC_add = RC_add.replace(/\[img\].*\([0-9.]*\/[0-9.]*\)/g, '');
       }
     //Laisser ces 3 lignes en dernières c'est question de mise en page finale, post changement.
-    RC_add = RC_add.replace(/\n\n\n\n/g,'\n'); //Supprime les trop grand nombres de saut de ligne après modification pour une mise en page plus jolie. 
+    RC_add = RC_add.replace(/\n\n\n/g,'\n\n'); //Supprime les trop grand nombres de saut de ligne après modification pour une mise en page plus jolie. 
     RC_add = RC_add.replace(/<b>/g,'') //Supprime certaines balises html qui s'affiche inutilement.
     RC_add = RC_add.replace(/<\/b>/g,'') //Supprime certaines balises html qui s'affiche inutilement.
     RC_saved += RC_add;
