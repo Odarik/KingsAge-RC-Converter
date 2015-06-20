@@ -80,7 +80,7 @@ if (document.getElementById('bb_code')) //Vérifie s'il y a du bb_code dans le m
         RC_add = RC_add.replace(/\[img\].*\([0-9.]*\/[0-9.]*\)/g, '');
       }
     //Laisser ces 3 lignes en dernières c'est question de mise en page finale, post changement.
-    RC_add = RC_add.replace(/\n\n\n/g,'\n'); //Supprime les trop grand nombres de saut de ligne après modification pour une mise en page plus jolie. 
+    RC_add = RC_add.replace(/\n\n\n\n/g,'\n'); //Supprime les trop grand nombres de saut de ligne après modification pour une mise en page plus jolie. 
     RC_add = RC_add.replace(/<b>/g,'') //Supprime certaines balises html qui s'affiche inutilement.
     RC_add = RC_add.replace(/<\/b>/g,'') //Supprime certaines balises html qui s'affiche inutilement.
     RC_saved += RC_add;
