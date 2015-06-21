@@ -41,9 +41,9 @@ if(/bouton=script/.test(location.href))
 
 if(/bouton=url2/.test(location.href))
       {
-        var RC_saved = GM_getValue('rc', '');
+        //var RC_saved = GM_getValue('rc', '');
         document.getElementById('text').innerHTML = RC_saved;
-        document.getElementsByName('send')[1].click();
+        //document.getElementsByName('send')[1].click();
       }
 
 
