@@ -64,6 +64,7 @@ if (document.getElementById('bb_code')) //Vérifie s'il y a du bb_code dans le m
   { 
     //Gestion des infos supprimées
     var RC_add = document.getElementById('bb_code').innerHTML.replace(/<br>\[b\]\[\/b\]<br>/g, ''); //Enlève un bug d'affichage sur les RC qui sont transférés. Saut de ligne trop grand avec balise gras vide au milieu. 
+    RC_add = RC_add.replace(/^\s([\S\s]+)?$/, '$1') //Supprime le premier retour à la ligne dans le textarea du au div du code.
     RC_add = RC_add.replace(/\[b\]Ressources.*/g, '\n');//Enlève ressources espionnées
     RC_add = RC_add.replace(/\[b\]Bâtiments.*/g, '\n');//Enlève batiments espionnées
     RC_add = RC_add.replace(/\[b\]Unités.*/g, '\n');//Enlève unités à l'extérieur
@@ -82,12 +83,13 @@ if (document.getElementById('bb_code')) //Vérifie s'il y a du bb_code dans le m
         RC_add = RC_add.replace(/\[b\]Ressources pillées: \[\/b\]/g, '');
         RC_add = RC_add.replace(/\[img\].*\([0-9.]*\/[0-9.]*\)/g, '');
       }
-    //Laisser ces 4 lignes en dernières c'est question de mise en page finale, post changement.
+    //Laisser ces 5 lignes en dernières c'est question de mise en page finale, post changement.
     RC_add = RC_add.replace(/&nbsp;/g,' ');
     RC_add = RC_add.replace(/\n\n\n\n/g,'\n'); //Supprime les trop grand nombres de saut de ligne après modification pour une mise en page plus jolie.
     RC_add = RC_add.replace(/\n\n\n/g,'\n\n'); //Supprime les trop grand nombres de saut de ligne après modification pour une mise en page plus jolie. 
     RC_add = RC_add.replace(/<b>/g,'') //Supprime certaines balises html qui s'affiche inutilement.
     RC_add = RC_add.replace(/<\/b>/g,'') //Supprime certaines balises html qui s'affiche inutilement.
+    //Transformation en bb_code raccourci
     RC_saved += RC_add;
     GM_setValue('rc', RC_saved); 
     document.getElementById('validation').style.visibility='visible'; 
@@ -108,7 +110,7 @@ if (document.getElementById('bb_code')) //Vérifie s'il y a du bb_code dans le m
   document.querySelectorAll('table .borderlist')[(document.querySelectorAll('table .borderlist').length)-2].appendChild(newElement);  
   
   var newElement = document.createElement('div'); //Création de la fenêtre et du menu des icones
-  newElement.innerHTML = '<span id="spanareaRC" style="display:' + defaultDisplay + ';padding-top:3px;"><img id="affichageText" style="padding-left:2.5%;cursor:pointer;display:inline-block;" src="http://image.noelshack.com/fichiers/2015/24/1434301080-fermer.png" title="Afficher/Fermer la fenêtre"/><img id="deleteRc" style="padding-left:0.5%;cursor:pointer;display:inline-block;" src="http://image.noelshack.com/fichiers/2015/24/1434300992-effacer.png" title="Effacer les entrées"/><img id="agrandir" style="padding-left:0.5%;cursor:pointer;display:inline-block;" src="http://image.noelshack.com/fichiers/2015/24/1434303027-ecriturered.png" title="Agrandir la taille de la fenêtre"/><img id="reduire" style="padding-left:0.5%;cursor:pointer;display:inline-block;" src="http://image.noelshack.com/fichiers/2015/24/1434300992-ecriture.png" title="Réduire la taille de la fenêtre"/><span style="padding-left:0.5%;display:inline-block;vertical-align:3px;">Ressources pillées :</span><img id="ressourceRC" style="padding-left:0.5%;cursor:pointer;display:inline-block;" src="' + imgRessource + '" title="Afficher les ressources pillés dans le rc."/></td><center><textarea rows=' + WinSize + ';  style="width:95%;align=center;resize:none;display:' + defaultDisplayText + ';" id="textareaRC">' + RC_saved + '</textarea></center></span>';
+  newElement.innerHTML = '<span id="spanareaRC" style="display:' + defaultDisplay + ';padding-top:3px;"><img id="affichageText" style="padding-left:2.5%;cursor:pointer;display:inline-block;" src="http://image.noelshack.com/fichiers/2015/24/1434301080-fermer.png" title="Afficher/Fermer la fenêtre"/><img id="deleteRc" style="padding-left:0.5%;cursor:pointer;display:inline-block;" src="http://image.noelshack.com/fichiers/2015/24/1434300992-effacer.png" title="Effacer les entrées"/><img id="agrandir" style="padding-left:0.5%;cursor:pointer;display:inline-block;" src="http://image.noelshack.com/fichiers/2015/24/1434303027-ecriturered.png" title="Agrandir la taille de la fenêtre"/><img id="reduire" style="padding-left:0.5%;cursor:pointer;display:inline-block;" src="http://image.noelshack.com/fichiers/2015/24/1434300992-ecriture.png" title="Réduire la taille de la fenêtre"/><span style="padding-left:0.5%;display:inline-block;vertical-align:3px;">Ressources pillées :</span><img id="ressourceRC" style="padding-left:0.5%;cursor:pointer;display:inline-block;" src="' + imgRessource + '" title="Afficher les ressources pillés dans le rc."/><span id="textSpanArea" style="display:' + defaultDisplayText + ';"><center><textarea rows=' + WinSize + ';  style="width:95%;align=center;resize:none;" id="textareaRC">' + RC_saved + '</textarea></center><div><span style="padding-left:2.5%;padding-top:3px;display:inline-block;vertical-align:6px;">Nombre de caractères sélectionnés :</span><span id="mySpan" style="padding-left:0.5%;color:black;display:inline-block;vertical-align:6px;";></span><img style="visibility:hidden;padding-left:0.7%;padding-top:3px;display:inline-block;" id="selectImg" src="http://image.noelshack.com/fichiers/2015/25/1434846546-limite.png" alt=""/></div></span></span>';
   document.querySelectorAll('table .borderlist') [(document.querySelectorAll('table .borderlist').length)-2].querySelectorAll('tr')[(document.querySelectorAll('table .borderlist') [(document.querySelectorAll('table .borderlist').length)-2].querySelectorAll('tr')).length-1].querySelectorAll('td')[0].appendChild(newElement);
  
   //Fonction qui calcule le nombre de caractère qui ont été sélectionné.
@@ -118,22 +120,19 @@ if (document.getElementById('bb_code')) //Vérifie s'il y a du bb_code dans le m
      debut = X.selectionStart;
      fin = X.selectionEnd;
      selection = X.value.substring(debut, fin);
-     if (selection.length > 10000) //Si c'est supérieur, cela l'affiche en rouge. (Rajouter une image peut etre avec visibility:hidden/visible etc)
+     if (selection.length > 10000) //Si c'est supérieur, cela l'affiche en rouge.
        {
          mySpan.innerHTML = selection.length;
          document.getElementById('mySpan').style.color = 'red';
+         document.getElementById('selectImg').style.visibility='visible';
        }
      else
        {
          document.getElementById('mySpan').style.color = 'black';
+         document.getElementById('selectImg').style.visibility='hidden';
        }
      mySpan.innerHTML = selection.length;
    }, true);
-  
-  //Span concernant la limite de caractère. (Rajouter une image peut etre)
-  var newElement = document.createElement('div'); 
-  newElement.innerHTML = '<span style="padding-left:2.5%;padding-top:3px;">Nombre de caractères sélectionnés :</span><span id="mySpan" style="padding-left:0.5%;color:black";></span>';
-  document.querySelectorAll('table .borderlist') [(document.querySelectorAll('table .borderlist').length)-2].querySelectorAll('tr')[(document.querySelectorAll('table .borderlist') [(document.querySelectorAll('table .borderlist').length)-2].querySelectorAll('tr')).length-1].querySelectorAll('td')[0].appendChild(newElement);
   
   //Fonction qui ouvre/ferme KingsAge RC exporter
   document.getElementById('affichage').addEventListener('click', function (event)
@@ -166,11 +165,11 @@ if (document.getElementById('bb_code')) //Vérifie s'il y a du bb_code dans le m
     {
       GM_setValue('defaultdisplaytext', 'block');
       defaultDisplayText = 'block';
-      document.getElementById('textareaRC').style.display = 'block';
+      document.getElementById('textSpanArea').style.display = 'block';
     } 
     else
     {
-      document.getElementById('textareaRC').style.display = 'none';
+      document.getElementById('textSpanArea').style.display = 'none';
       GM_setValue('defaultdisplaytext', 'none');
       defaultDisplayText = 'none';
     }
