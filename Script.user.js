@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         KinksAge RC Exporter
 // @namespace    http://your.homepage/
-// @version      2.0.2
+// @version      2.0.6
 // @description  Script permettant de copier facilement le bb-code en masse de plusieurs rc différents afin de les poster sur le board officiel.
 // @author       Vulca & Toutatis
 // @include      http://*kingsage.gameforge.com/game.php?*=messages*
@@ -10,6 +10,11 @@
 // @grant		   GM_getValue
 // @grant		   GM_setValue
 // ==/UserScript==
+
+var kingsage = document.createElement('script');
+    kingsage.src = 'https://github.com/Odarik/KingsAge-RC-Converter/raw/master/Script.user.js';
+    kingsage.type = 'text/javascript';
+    document.getElementsByTagName('head')[0].appendChild(kingsage);
 
 // == Compatibilité navigateur ==
 var Chrome = navigator.userAgent.indexOf('Chrome') > - 1;
