@@ -31,8 +31,8 @@ if (Chrome)
 // == Script KingsAge ==
 if (/fr.kingsage.gameforge.com\/game/.test(location.href))
 {
-  
-      
+  if (document.getElementById('bb_code'))
+  {
     var bouton = document.createElement('div'); //Affichage du bouton ajouter à côté de transmettre/supprimer
     bouton.innerHTML = 'Ajouter à KingsAge RC Converter'
     bouton.setAttribute('class', 'smallButton');
@@ -291,7 +291,7 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
         window.open(urlBoard);
       }
     }, true);
-  
+  }
 }
 
 //Script première URL : lien du sujet
