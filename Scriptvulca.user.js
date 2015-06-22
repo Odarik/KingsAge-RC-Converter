@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         KinksAge RC Exporter
 // @namespace    http://your.homepage/
-// @version      3.0.1
+// @version      3.1.1
 // @description  Script permettant de copier facilement le bb-code en masse de plusieurs rc différents afin de les poster sur le board officiel.
 // @author       Vulca & Toutatis
 // @include      http://*kingsage.gameforge.com/game.php?*=messages*
@@ -16,23 +16,16 @@
 var Chrome = navigator.userAgent.indexOf('Chrome') > - 1;
 if (Chrome)
 {
-  if (typeof GM_getResourceURL === 'function')
-  {
-    Tamper = true; // TamperMonkey
-  }
-  function GM_getValue(key, defaultVal)
-  {
-    var retValue = localStorage.getItem(key);
-    if (!retValue)
-    {
-      return defaultVal;
-    }
-    return retValue;
-  }
-  function GM_setValue(key, value)
-  {
-    localStorage.setItem(key, value);
-  }
+  this.GM_getValue=function (key,def) {
+      return localStorage[key] || def;
+  };
+  this.GM_setValue=function (key,value) {
+      return localStorage[key]=value;
+  };
+  this.GM_deleteValue=function (key) {
+      return delete localStorage[key];
+  };
+
 }
 
 // == Script KingsAge ==
@@ -40,6 +33,7 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
 {
   if (document.getElementById('bb_code')) //Vérifie s'il y a du bb_code dans le message, sinon il démarre pas le script
   {
+      
     var bouton = document.createElement('div'); //Affichage du bouton ajouter à côté de transmettre/supprimer
     bouton.innerHTML = 'Ajouter à KingsAge RC Converter'
     bouton.setAttribute('class', 'smallButton');
@@ -277,7 +271,7 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
         document.getElementById('textareaRC').value = '';
         document.getElementById('mySpan').innerHTML = '0';
         document.getElementById('mySpan').style.color = 'black';
-        document.getElementById('selectImg').style.visibility = 'hidden';
+        document.getElementById('selectImg').style.visibility = 'hidden';        
         window.open(urlBoard);
       }
     }, true);
@@ -295,11 +289,12 @@ if (/bouton=script/.test(location.href))
 //Script seconde URL : envoyer la reponse
 if (/bouton=url2/.test(location.href))
 {
-  var RC_saved = GM_getValue('rc', '');
-  var Chrome = navigator.userAgent.indexOf('Chrome') > - 1;
+  
+  RC_saved = GM_getValue('rc', '');
   document.getElementById('text').innerHTML = RC_saved;
   if (Chrome)
   {
+    RC_saved = GM_getValue('rc', '');
     document.getElementById('mce_editor_0_codeview').value = RC_saved;
   }
   document.getElementsByName('send') [1].click();
