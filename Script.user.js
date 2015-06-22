@@ -1,9 +1,8 @@
 // ==UserScript==
 // @name         KinksAge RC Exporter
-// @namespace    http://your.homepage/
 // @version      3.0.1
 // @description  Script permettant de copier facilement le bb-code en masse de plusieurs rc différents afin de les poster sur le board officiel.
-// @author       Vulca & Toutatis
+// @author       Toutatis
 // @include      http://*kingsage.gameforge.com/game.php?*=messages*
 // @include      http://board.fr.kingsage.gameforge.com/*
 // @updateURL   https://github.com/Odarik/KingsAge-RC-Converter/raw/master/Script.user.js
