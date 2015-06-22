@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         KinksAge RC Exporter
+// @name         KingsAge RC Exporter
 // @version      3.0.1
 // @description  Script permettant de copier facilement le bb-code en masse de plusieurs rc différents afin de les poster sur le board officiel.
 // @author       Toutatis
@@ -86,6 +86,23 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
       RC_add = RC_add.replace(/<b>/g, '') //Supprime certaines balises html qui s'affiche inutilement.
       RC_add = RC_add.replace(/<\/b>/g, '') //Supprime certaines balises html qui s'affiche inutilement.
       //Transformation en bb_code raccourci
+      RC_add = RC_add.replace(/\[img\].*unit_farmer.png\[\/img\]/g, 'img_farmer');
+      RC_add = RC_add.replace(/\[img\].*unit_sword.png\[\/img\]/g, 'img_sword');
+      RC_add = RC_add.replace(/\[img\].*unit_spear.png\[\/img\]/g, 'img_spear');
+      RC_add = RC_add.replace(/\[img\].*unit_axe.png\[\/img\]/g, 'img_axe');
+      RC_add = RC_add.replace(/\[img\].*unit_bow.png\[\/img\]/g, 'img_bow');
+      RC_add = RC_add.replace(/\[img\].*unit_spy.png\[\/img\]/g, 'img_spy');
+      RC_add = RC_add.replace(/\[img\].*unit_light.png\[\/img\]/g, 'img_light');
+      RC_add = RC_add.replace(/\[img\].*unit_heavy.png\[\/img\]/g, 'img_heavy');
+      RC_add = RC_add.replace(/\[img\].*unit_ram.png\[\/img\]/g, 'img_ram');
+      RC_add = RC_add.replace(/\[img\].*unit_kata.png\[\/img\]/g, 'img_kata');
+      RC_add = RC_add.replace(/\[img\].*unit_snob.png\[\/img\]/g, 'img_snob');
+      RC_add = RC_add.replace(/\[img\].*luck.png\[\/img\]/g, 'img_active');
+      RC_add = RC_add.replace(/\[img\].*luck_inactive.png\[\/img\]/g, 'img_inactive');
+      RC_add = RC_add.replace(/\[img\].*blue.png\[\/img\]/g, 'img_blue');
+      RC_add = RC_add.replace(/\[img\].*yellow.png\[\/img\]/g, 'img_yellow');
+      RC_add = RC_add.replace(/\[img\].*red.png\[\/img\]/g, 'img_red');
+      RC_add = RC_add.replace(/\[img\].*green.png\[\/img\]/g, 'img_green');
       RC_saved += RC_add;
       GM_setValue('rc', RC_saved);
       document.getElementById('validation').style.visibility = 'visible';
