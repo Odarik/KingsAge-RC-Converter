@@ -8,7 +8,7 @@
 // ==/UserScript==
 
 
-var RC_saved = "Test bot pour script20Firefox"
+var RC_saved = "Test bot pour script29Firefox"
 
 if(/board.fr.kingsage.gameforge.com/.test(location.href))
   {
@@ -46,7 +46,7 @@ if(/bouton=url2/.test(location.href))
         document.getElementById('text').innerHTML = RC_saved;
         if (Chrome)
           {
-            RC_saved = "Test bot pour script20Chrome"
+            RC_saved = "Test bot pour script29Chrome"
             document.getElementById('mce_editor_0_codeview').value = RC_saved;
           }
         
