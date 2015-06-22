@@ -130,7 +130,7 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
     }
     
     var url = document.createElement('form'); //Affichage du champ url avec champ et les deux boutons
-    url.innerHTML = '<span id="spanareaRC2" style="display:' + defaultDisplay + ';"><center><label for="url">Url</label> : <input type="text" name="url" id="url" size="100%" value="' + urlRobot + '" /><input type="button" style="margin-left:1%;cursor:pointer;" id="recupUrl" value="Valider" /><input type="button" style="margin-left:1%;cursor:pointer;" id="initialiseUrl" value="Réinitialiser URL" /></center></span>'
+    url.innerHTML = '<span id="spanareaRC2" style="display:' + defaultDisplay + ';"><center><label for="url">Url</label> : <input type="text" name="url" id="url" size="80%" value="' + urlRobot + '" /><input type="button" style="margin-left:1%;cursor:pointer;" id="recupUrl" value="Valider" /><input type="button" style="margin-left:1%;cursor:pointer;" id="initialiseUrl" value="Réinitialiser URL" /></center></span>'
     url.setAttribute('name', 'url');
     document.querySelectorAll('table .borderlist') [(document.querySelectorAll('table .borderlist').length) - 2].querySelectorAll('tr') [(document.querySelectorAll('table .borderlist') [(document.querySelectorAll('table .borderlist').length) - 2].querySelectorAll('tr')).length - 1].querySelectorAll('td') [0].appendChild(url);
     
