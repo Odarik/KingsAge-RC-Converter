@@ -5,8 +5,8 @@
 // @author       Toutatis
 // @include      http://*kingsage.gameforge.com/game.php?*=messages*
 // @include      http://board.fr.kingsage.gameforge.com/*
-// @updateURL   https://github.com/Odarik/KingsAge-RC-Converter/raw/master/Script.user.js
-// @downloadURL https://github.com/Odarik/KingsAge-RC-Converter/raw/master/Script.user.js
+// @updateURL   https://raw.githubusercontent.com/Odarik/KingsAge-RC-Converter/master/Script.user.js
+// @downloadURL https://raw.githubusercontent.com/Odarik/KingsAge-RC-Converter/master/Script.user.js
 // @grant		   GM_getValue
 // @grant		   GM_setValue
 // ==/UserScript==
@@ -31,8 +31,8 @@ if (Chrome)
 // == Script KingsAge ==
 if (/fr.kingsage.gameforge.com\/game/.test(location.href))
 {
-  
-      
+  if (document.getElementById('bb_code'))
+  {
     var bouton = document.createElement('div'); //Affichage du bouton ajouter à côté de transmettre/supprimer
     bouton.innerHTML = 'Ajouter à KingsAge RC Converter'
     bouton.setAttribute('class', 'smallButton');
@@ -291,7 +291,7 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
         window.open(urlBoard);
       }
     }, true);
-  
+  }
 }
 
 //Script première URL : lien du sujet
