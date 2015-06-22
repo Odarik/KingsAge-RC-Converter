@@ -1,9 +1,8 @@
 // ==UserScript==
 // @name         KinksAge RC Exporter
-// @namespace    http://your.homepage/
-// @version      2.0.5
+// @version      3.0.1
 // @description  Script permettant de copier facilement le bb-code en masse de plusieurs rc différents afin de les poster sur le board officiel.
-// @author       Vulca & Toutatis
+// @author       Toutatis
 // @include      http://*kingsage.gameforge.com/game.php?*=messages*
 // @include      http://board.fr.kingsage.gameforge.com/*
 // @updateURL   https://github.com/Odarik/KingsAge-RC-Converter/raw/master/Script.user.js
@@ -11,6 +10,7 @@
 // @grant		   GM_getValue
 // @grant		   GM_setValue
 // ==/UserScript==
+
 
 // == Compatibilité navigateur ==
 var Chrome = navigator.userAgent.indexOf('Chrome') > - 1;
@@ -31,21 +31,20 @@ if (Chrome)
 // == Script KingsAge ==
 if (/fr.kingsage.gameforge.com\/game/.test(location.href))
 {
-  if (document.getElementById('bb_code')) //Vérifie s'il y a du bb_code dans le message, sinon il démarre pas le script
-  {
+  
       
     var bouton = document.createElement('div'); //Affichage du bouton ajouter à côté de transmettre/supprimer
     bouton.innerHTML = 'Ajouter à KingsAge RC Converter'
     bouton.setAttribute('class', 'smallButton');
     bouton.setAttribute('id', 'ajouter');
     bouton.setAttribute('style', 'cursor:pointer;');
-    document.querySelectorAll('.smallButton') [1].parentNode.appendChild(bouton);
+    document.querySelectorAll('.smallButton') [0].parentNode.appendChild(bouton);
     
     var newElement = document.createElement('div'); //Affichage rapide d'une image annonçant que le RC a été ajouté
     newElement.innerHTML = '<img style="padding-left:5px;padding-top:7px;" src="http://image.noelshack.com/fichiers/2015/25/1434590290-valid3e.png" alt="" />';
     newElement.setAttribute('id', 'validation');
     newElement.setAttribute('style', 'visibility:hidden;');
-    document.querySelectorAll('.smallButton') [1].parentNode.appendChild(newElement);
+    document.querySelectorAll('.smallButton') [0].parentNode.appendChild(newElement);
     
     //Fonction qui gère l'animation de RC ajouté
     function anim()
@@ -275,7 +274,7 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
         window.open(urlBoard);
       }
     }, true);
-  }
+  
 }
 
 //Script première URL : lien du sujet
