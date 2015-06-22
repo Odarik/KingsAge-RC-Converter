@@ -2,19 +2,19 @@
 // @name        Robot RC
 // @namespace   Robot RC
 // @include     http://board.fr.kingsage.gameforge.com/*
-// @version     1
+// @version     2.0
 // @grant		   GM_getValue
 // @grant		   GM_setValue
 // ==/UserScript==
 
 
-var RC_saved = "Test bot pour script24"
+var RC_saved = "Test bot pour script20Firefox"
 
 if(/board.fr.kingsage.gameforge.com/.test(location.href))
   {
 var bouton = document.createElement('input'); //Affichage du bouton ajouter à côté de transmettre/supprimer
   bouton.innerHTML = 'Envoyer'
-  bouton.setAttribute('type', 'reset');
+  bouton.setAttribute('type', 'button');
   bouton.setAttribute('id', 'ajouter');
   bouton.setAttribute('value', 'Robot');
   bouton.setAttribute('name', 'Robot');
@@ -42,8 +42,15 @@ if(/bouton=script/.test(location.href))
 if(/bouton=url2/.test(location.href))
       {
         //var RC_saved = GM_getValue('rc', '');
+        var Chrome = navigator.userAgent.indexOf('Chrome')>-1;
         document.getElementById('text').innerHTML = RC_saved;
-        //document.getElementsByName('send')[1].click();
+        if (Chrome)
+          {
+            RC_saved = "Test bot pour script20Chrome"
+            document.getElementById('mce_editor_0_codeview').value = RC_saved;
+          }
+        
+        document.getElementsByName('send')[1].click();
       }
 
 
