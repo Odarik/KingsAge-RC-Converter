@@ -5,8 +5,8 @@
 // @author       Toutatis
 // @include      http://*kingsage.gameforge.com/game.php?*=messages*
 // @include      http://board.fr.kingsage.gameforge.com/*
-// @updateURL   https://github.com/Odarik/KingsAge-RC-Converter/raw/master/Script.user.js
-// @downloadURL https://github.com/Odarik/KingsAge-RC-Converter/raw/master/Script.user.js
+// @updateURL   https://raw.githubusercontent.com/Odarik/KingsAge-RC-Converter/master/Script.user.js
+// @downloadURL https://raw.githubusercontent.com/Odarik/KingsAge-RC-Converter/master/Script.user.js
 // @grant		   GM_getValue
 // @grant		   GM_setValue
 // ==/UserScript==
