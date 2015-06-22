@@ -35,6 +35,8 @@ if (Chrome)
 }
 
 // == Script KingsAge == 
+if (/fr.kingsage.gameforge.com\/game/.test(location.href))
+{
 if (document.getElementById('bb_code')) //Vérifie s'il y a du bb_code dans le message, sinon il démarre pas le script
 {
   var bouton = document.createElement('div'); //Affichage du bouton ajouter à côté de transmettre/supprimer
@@ -104,6 +106,7 @@ if (document.getElementById('bb_code')) //Vérifie s'il y a du bb_code dans le m
   var imgRessource = GM_getValue('imgressource','http://image.noelshack.com/fichiers/2015/25/1434585646-invalideressource.png')
   var defaultDisplay = GM_getValue('defaultdisplay', '');  
   var defaultDisplayText = GM_getValue('defaultdisplaytext', '');
+  var urlRobot = GM_getValue('urlrobot', '');
     
   var newElement = document.createElement('tr'); //Création du menu en bas de la page
   newElement.innerHTML = '<td><img src="http://s17.fr.kingsage.gameforge.com/img/arrow_right_raquo.png" alt="" /><span class="click" id="affichage"> KingsAge RC Converter</span><br/></td>';
@@ -133,6 +136,25 @@ if (document.getElementById('bb_code')) //Vérifie s'il y a du bb_code dans le m
        }
      mySpan.innerHTML = selection.length;
    }, true);
+   
+   var url = document.createElement('form'); //Affichage du champ url
+    url.innerHTML = '<label for="url">Url</label> : <input type="text" name="url" id="url" value="'+urlRobot+'" required/><input type="button" id="recupUrl" value="Valider" />'
+    url.setAttribute('name', 'url');
+    document.querySelectorAll('table .borderlist') [(document.querySelectorAll('table .borderlist').length) - 2].querySelectorAll('tr') [(document.querySelectorAll('table .borderlist') [(document.querySelectorAll('table .borderlist').length) - 2].querySelectorAll('tr')).length - 1].querySelectorAll('td') [0].appendChild(url);
+    var bouton = document.createElement('input'); //Affichage du bouton pour le robot
+    bouton.innerHTML = 'Envoyer'
+    bouton.setAttribute('type', 'button');
+    bouton.setAttribute('id', 'demarrerrobot');
+    bouton.setAttribute('value', 'Robot');
+    bouton.setAttribute('name', 'Robot');
+    bouton.setAttribute('tabindex', '8');
+    document.querySelectorAll('table .borderlist') [(document.querySelectorAll('table .borderlist').length) - 2].querySelectorAll('tr') [(document.querySelectorAll('table .borderlist') [(document.querySelectorAll('table .borderlist').length) - 2].querySelectorAll('tr')).length - 1].querySelectorAll('td') [0].appendChild(bouton);
+    
+    document.getElementById('recupUrl').addEventListener('click', function (event)
+    {
+      url = document.forms['url'].elements['url'].value;
+      GM_setValue('urlrobot', url);
+    }, true);
   
   //Fonction qui ouvre/ferme KingsAge RC exporter
   document.getElementById('affichage').addEventListener('click', function (event)
@@ -229,4 +251,31 @@ if (document.getElementById('bb_code')) //Vérifie s'il y a du bb_code dans le m
       GM_setValue('imgressource', 'http://image.noelshack.com/fichiers/2015/25/1434585646-invalideressource.png');
     }
   }, true);
+  document.getElementById('demarrerrobot').addEventListener('click', function (event)
+    {
+      urlBoard = GM_getValue('urlrobot', '');
+      urlBoard +='?bouton=script'
+      alert(GM_getValue('urlrobot', ''));
+      alert(urlBoard);
+      window.open(urlBoard);
+    }, true);
 }
+}
+if (/bouton=script/.test(location.href))
+{
+  var url2 = document.getElementById('replyButton1').href;
+  url2 += '&bouton=url2';
+  window.location.replace(url2);
+}
+if (/bouton=url2/.test(location.href))
+{
+  var RC_saved = GM_getValue('rc', '');
+  var Chrome = navigator.userAgent.indexOf('Chrome') > - 1;
+  document.getElementById('text').innerHTML = RC_saved;
+  if (Chrome)
+  {
+    document.getElementById('mce_editor_0_codeview').value = RC_saved;
+  }
+  document.getElementsByName('send') [1].click();
+}
+
