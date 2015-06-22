@@ -68,7 +68,7 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
       //Gestion des infos supprimées
       var RC_add = document.getElementById('bb_code').innerHTML.replace(/<br>\[b\]\[\/b\]<br>/g, ''); //Enlève un bug d'affichage sur les RC qui sont transférés. Saut de ligne trop grand avec balise gras vide au milieu. 
       RC_add = RC_add.replace(/^\s([\S\s]+)?$/, '$1') //Supprime le premier retour à la ligne dans le textarea du au div du code.
-      RC_add = RC_add.replace(/\[b\]Ressources.*/g, '\n'); //Enlève ressources espionnées
+      RC_add = RC_add.replace(/\[b\]Ressources espionnées.*/g, '\n'); //Enlève ressources espionnées
       RC_add = RC_add.replace(/\[b\]Bâtiments.*/g, '\n'); //Enlève batiments espionnées
       RC_add = RC_add.replace(/\[b\]Unités.*/g, '\n'); //Enlève unités à l'extérieur
       RC_add = RC_add.replace(/<br>/g, '\n'); //Remplace les sauts de ligne en code html par des sauts de lignes
