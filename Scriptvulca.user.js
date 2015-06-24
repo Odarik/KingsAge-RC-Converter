@@ -266,7 +266,7 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
   if (/m=forum/.test(location.href))
   {
     var nom = document.location.href;
-    nom = nom.replace(/^.*(s[0-9]{2}).*/i, '$1');
+    nom = nom.replace(/^.*(s[0-9]{1,2}).*/i, '$1');
     var lien = GM_getValue('url' + nom + 'forum', '');
     $('iframe[src*="forum.php?"]').load(function () {
       var forum = $('iframe[src*="forum.php?"]').get(0).contentDocument.location.href;
@@ -281,7 +281,6 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
           var url = document.location.href;
           lien = url.replace(/game.php.*/, idThread);
           GM_setValue('url' + nom + 'forum', lien);
-          alert(GM_getValue('url' + nom + 'forum', ''));
         })
       }
     })
@@ -291,7 +290,7 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
     if (document.getElementById('bb_code'))
     {
       var nom = document.location.href;
-      nom = nom.replace(/^.*(s[0-9]{2}).*/i, '$1');
+      nom = nom.replace(/^.*(s[0-9]{1,2}).*/i, '$1');
       var bouton = document.createElement('div');
       bouton.innerHTML = 'Ajouter au forum d\'alliance'
       bouton.setAttribute('class', 'smallButton');
