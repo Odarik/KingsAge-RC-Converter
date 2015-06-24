@@ -266,7 +266,7 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
   if (/m=forum/.test(location.href))
   {
     var nom = document.location.href;
-    nom = nom.replace(/^.*(s19).*/i, '$1');
+    nom = nom.replace(/^.*(s[0-9]{2}).*/i, '$1');
     var lien = GM_getValue('url' + nom + 'forum', '');
     $('iframe[src*="forum.php?"]').load(function () {
       var forum = $('iframe[src*="forum.php?"]').get(0).contentDocument.location.href;
@@ -281,6 +281,7 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
           var url = document.location.href;
           lien = url.replace(/game.php.*/, idThread);
           GM_setValue('url' + nom + 'forum', lien);
+          alert(GM_getValue('url' + nom + 'forum', ''));
         })
       }
     })
@@ -290,7 +291,7 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
     if (document.getElementById('bb_code'))
     {
       var nom = document.location.href;
-      nom = nom.replace(/^.*(s19).*/i, '$1');
+      nom = nom.replace(/^.*(s[0-9]{2}).*/i, '$1');
       var bouton = document.createElement('div');
       bouton.innerHTML = 'Ajouter au forum d\'alliance'
       bouton.setAttribute('class', 'smallButton');
@@ -305,7 +306,6 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
         {
           function makePost()
           {
-            //var single = data.shift(); >> Single vide je crois ou data vide trouver a quoi correspond data dans le script. shift supprime certains elements
             var single = document.getElementById('bb_code').innerHTML.replace(/<br>\[b\]\[\/b\]<br>/g, '');
             single = single.replace(/^\s([\S\s]+)?$/, '$1')
             single = single.replace(/<br>/g, '\n'); //Remplace les sauts de ligne en code html par des sauts de lignes
@@ -333,6 +333,11 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
           playerName = playerName.substring(playerName.indexOf(':') + 1),
           playerName = $.trim(playerName);
           confirmPost(playerName, threadName)
+
+        }
+        else 
+        {
+           alert("Vous n\'avez pas selectionné un sujet !")
         }
       });
     }
