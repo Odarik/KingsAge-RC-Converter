@@ -5,6 +5,7 @@
 // @author       Toutatis
 // @include      http://*kingsage.gameforge.com/game.php?*=messages*
 // @include      http://board.fr.kingsage.gameforge.com/*
+// @require  http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js
 // @updateURL   https://raw.githubusercontent.com/Odarik/KingsAge-RC-Converter/master/Script.user.js
 // @downloadURL https://raw.githubusercontent.com/Odarik/KingsAge-RC-Converter/master/Script.user.js
 // @grant		   GM_getValue
@@ -34,30 +35,19 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
   if (document.getElementById('bb_code'))
   {
     var bouton = document.createElement('div'); //Affichage du bouton ajouter à côté de transmettre/supprimer
-    bouton.innerHTML = 'Ajouter à KingsAge RC Converter'
+    bouton.innerHTML = 'Ajouter à KingsAge RC Exporter'
     bouton.setAttribute('class', 'smallButton');
     bouton.setAttribute('id', 'ajouter');
     bouton.setAttribute('style', 'cursor:pointer;');
     document.querySelectorAll('.smallButton') [0].parentNode.appendChild(bouton);
-    
-    var newElement = document.createElement('div'); //Affichage rapide d'une image annonçant que le RC a été ajouté
-    newElement.innerHTML = '<img style="padding-left:5px;padding-top:7px;" src="http://image.noelshack.com/fichiers/2015/25/1434590290-valid3e.png" alt="" />';
-    newElement.setAttribute('id', 'validation');
-    newElement.setAttribute('style', 'visibility:hidden;');
-    document.querySelectorAll('.smallButton') [0].parentNode.appendChild(newElement);
-    
-    //Fonction qui gère l'animation de RC ajouté
-    function anim()
-    {
-      document.getElementById('validation').style.visibility = 'hidden';
-    }
-    
+       
     var RC_saved = GM_getValue('rc', '');
     var nbrCaract = GM_getValue('nbrcaract', '');
     
     //Fonction qui ajoute le rc
     document.getElementById('ajouter').addEventListener('click', function (event)
     {
+      $(this).fadeOut("slow").fadeIn("slow");
       //Gestion des infos supprimées
       var RC_add = document.getElementById('bb_code').innerHTML.replace(/<br>\[b\]\[\/b\]<br>/g, ''); //Enlève un bug d'affichage sur les RC qui sont transférés. Saut de ligne trop grand avec balise gras vide au milieu. 
       RC_add = RC_add.replace(/^\s([\S\s]+)?$/, '$1') //Supprime le premier retour à la ligne dans le textarea du au div du code.
@@ -105,8 +95,6 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
       RC_add = RC_add.replace(/\[img\].*green.png\[\/img\]/g, 'img_green');
       RC_saved += RC_add;
       GM_setValue('rc', RC_saved);
-      document.getElementById('validation').style.visibility = 'visible';
-      setTimeout(anim, 1000);
       document.getElementById('textareaRC').value = RC_saved;
       nbrCaract = RC_saved.length;
       GM_setValue('nbrcaract', nbrCaract);
@@ -157,6 +145,7 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
     //Fonction qui gère le bouton Valider
     document.getElementById('recupUrl').addEventListener('click', function (event)
     {
+      $(this).fadeOut().fadeIn();
       url = document.forms['url'].elements['url'].value;
       GM_setValue('urlrobot', url);
     }, true);
@@ -164,6 +153,7 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
     //Fonction qui gère le bouton Réinitialiser
     document.getElementById('initialiseUrl').addEventListener('click', function (event)
     {
+      $(this).fadeOut().fadeIn();
       document.forms['url'].elements['url'].value = '';
       GM_setValue('urlrobot', '');
     }, true);
@@ -255,6 +245,7 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
     //Fonction qui gère l'option des ressources au niveau de l'affichage dans le menu.
     document.getElementById('ressourceRC').addEventListener('click', function (event)
     {
+      
       if (Ressource == 'inactif')
       {
         document.getElementById('ressourceRC').src = 'http://image.noelshack.com/fichiers/2015/25/1434585646-valideressource.png';
