@@ -89,7 +89,7 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
       RC_add = RC_add.replace(/\[img\].*yellow.png\[\/img\]/g, 'img_yellow');
       RC_add = RC_add.replace(/\[img\].*red.png\[\/img\]/g, 'img_red');
       RC_add = RC_add.replace(/\[img\].*green.png\[\/img\]/g, 'img_green');
-      RC_saved += RC_add;
+      RC_saved += RC_add +'\n\n';
       GM_setValue('rc', RC_saved);
       document.getElementById('textareaRC').value = RC_saved;
       nbrCaract = RC_saved.length;
@@ -259,7 +259,7 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
         document.getElementById('mySpan').innerHTML = '0';
         document.getElementById('mySpan').style.color = 'black';
         document.getElementById('selectImg').style.visibility = 'hidden';
-        window.open(urlBoard);
+       var myWindow = window.open(urlBoard);
       }
     }, true);
   }
