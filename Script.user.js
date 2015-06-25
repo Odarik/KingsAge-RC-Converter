@@ -48,7 +48,7 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
     //Fonction qui ajoute le rc
     document.getElementById('ajouter').addEventListener('click', function (event)
     {
-      $(this).fadeOut('slow').fadeIn('slow');
+      $(this).fadeOut("slow").fadeIn("slow");
       //Gestion des infos supprimées
       var RC_add = document.getElementById('bb_code').innerHTML.replace(/<br>\[b\]\[\/b\]<br>/g, ''); //Enlève un bug d'affichage sur les RC qui sont transférés. Saut de ligne trop grand avec balise gras vide au milieu. 
       RC_add = RC_add.replace(/^\s([\S\s]+)?$/, '$1') //Supprime le premier retour à la ligne dans le textarea du au div du code.
@@ -131,10 +131,16 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
       } 
       else
       {
+        document.getElementById('nbrhaut').style.color = 'white'
         document.getElementById('mySpan').style.color = 'black';
         document.getElementById('selectImg').style.visibility = 'hidden';
       }
+      if (nbrCaract > 8500)
+        {
+          document.getElementById('nbrhaut').style.color = 'red';
+        }
       document.getElementById('mySpan').innerHTML = nbrCaract;
+      document.getElementById('nbrhaut').innerHTML = nbrCaract;
     }
     
     var url = document.createElement('form'); //Affichage du champ url avec champ et les deux boutons
@@ -191,6 +197,8 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
       GM_setValue('nbrcaract'+nom, '0');
       document.getElementById('textareaRC').value = '';
       document.getElementById('mySpan').innerHTML = '0';
+      document.getElementById('nbrhaut').innerHTML = '0';
+      document.getElementById('nbrhaut').style.color = 'white';
       document.getElementById('mySpan').style.color = 'black';
       document.getElementById('selectImg').style.visibility = 'hidden';
     }, true);
@@ -363,6 +371,10 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
            alert("Vous n\'avez pas selectionné un sujet !")
         }
       });
+      var bouton = document.createElement('div'); //Affichage du bouton ajouter à côté de transmettre/supprimer
+      bouton.innerHTML = '<span style="color:white;" id="nbrhaut">' + nbrCaract + '</span>'
+      bouton.setAttribute('class', 'smallButton');
+      document.querySelectorAll('.smallButton') [0].parentNode.appendChild(bouton);
     }
   }
 }
