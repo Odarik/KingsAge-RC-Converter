@@ -259,7 +259,7 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
         document.getElementById('mySpan').innerHTML = '0';
         document.getElementById('mySpan').style.color = 'black';
         document.getElementById('selectImg').style.visibility = 'hidden';
-       var myWindow = window.open(urlBoard);
+        window.open(urlBoard);
       }
     }, true);
   }
