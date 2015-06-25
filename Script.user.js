@@ -114,7 +114,7 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
     var urlRobot = GM_getValue('urlrobot'+nom, '');
     
     var newElement = document.createElement('tr'); //Création du menu en bas de la page
-    newElement.innerHTML = '<td><img src="http://s17.fr.kingsage.gameforge.com/img/arrow_right_raquo.png" alt="" /><span class="click" id="affichage"> KingsAge RC Converter</span><br/></td>';
+    newElement.innerHTML = '<td><img src="http://s17.fr.kingsage.gameforge.com/img/arrow_right_raquo.png" alt="" /><span class="click" id="affichage"> KingsAge RC Exporter</span><br/></td>';
     document.querySelectorAll('table .borderlist') [(document.querySelectorAll('table .borderlist').length) - 2].appendChild(newElement);
     
     var newElement = document.createElement('div'); //Création de la fenêtre et du menu des icones
