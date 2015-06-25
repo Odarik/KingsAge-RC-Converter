@@ -1,31 +1,30 @@
 // ==UserScript==
 // @name         KingsAge RC Exporter
-// @version      3.0.1
-// @description  Script permettant de copier facilement le bb-code en masse de plusieurs rc différents afin de les poster sur le board officiel.
+// @version      4.0.1
+// @description  Script permettant de copier facilement le bb-code en masse de plusieurs rcs différents afin de les poster sur le board officiel.
 // @author       Toutatis
-// @include      http://*kingsage.gameforge.com/game.php?*=messages*
+// @include      http://*kingsage.gameforge.com/*
 // @include      http://board.fr.kingsage.gameforge.com/*
+// @require      http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js
 // @updateURL   https://raw.githubusercontent.com/Odarik/KingsAge-RC-Converter/master/Script.user.js
 // @downloadURL https://raw.githubusercontent.com/Odarik/KingsAge-RC-Converter/master/Script.user.js
 // @grant		   GM_getValue
 // @grant		   GM_setValue
 // ==/UserScript==
 
-
 // == Compatibilité navigateur ==
 var Chrome = navigator.userAgent.indexOf('Chrome') > - 1;
 if (Chrome)
 {
-  this.GM_getValue=function (key,def) {
-      return localStorage[key] || def;
+  this.GM_getValue = function (key, def) {
+    return localStorage[key] || def;
   };
-  this.GM_setValue=function (key,value) {
-      return localStorage[key]=value;
+  this.GM_setValue = function (key, value) {
+    return localStorage[key] = value;
   };
-  this.GM_deleteValue=function (key) {
-      return delete localStorage[key];
+  this.GM_deleteValue = function (key) {
+    return delete localStorage[key];
   };
-
 }
 
 // == Script KingsAge ==
@@ -34,30 +33,22 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
   if (document.getElementById('bb_code'))
   {
     var bouton = document.createElement('div'); //Affichage du bouton ajouter à côté de transmettre/supprimer
-    bouton.innerHTML = 'Ajouter à KingsAge RC Converter'
+    bouton.innerHTML = 'Ajouter à KingsAge RC Exporter'
     bouton.setAttribute('class', 'smallButton');
     bouton.setAttribute('id', 'ajouter');
     bouton.setAttribute('style', 'cursor:pointer;');
     document.querySelectorAll('.smallButton') [0].parentNode.appendChild(bouton);
     
-    var newElement = document.createElement('div'); //Affichage rapide d'une image annonçant que le RC a été ajouté
-    newElement.innerHTML = '<img style="padding-left:5px;padding-top:7px;" src="http://image.noelshack.com/fichiers/2015/25/1434590290-valid3e.png" alt="" />';
-    newElement.setAttribute('id', 'validation');
-    newElement.setAttribute('style', 'visibility:hidden;');
-    document.querySelectorAll('.smallButton') [0].parentNode.appendChild(newElement);
+    var nom = document.location.href;
+    nom = nom.replace(/^.*(s[0-9]{1,2}).*/i, '$1');
     
-    //Fonction qui gère l'animation de RC ajouté
-    function anim()
-    {
-      document.getElementById('validation').style.visibility = 'hidden';
-    }
-    
-    var RC_saved = GM_getValue('rc', '');
-    var nbrCaract = GM_getValue('nbrcaract', '');
+    var RC_saved = GM_getValue('rc'+nom, '');
+    var nbrCaract = GM_getValue('nbrcaract'+nom, '');
     
     //Fonction qui ajoute le rc
     document.getElementById('ajouter').addEventListener('click', function (event)
     {
+      $(this).fadeOut('slow').fadeIn('slow');
       //Gestion des infos supprimées
       var RC_add = document.getElementById('bb_code').innerHTML.replace(/<br>\[b\]\[\/b\]<br>/g, ''); //Enlève un bug d'affichage sur les RC qui sont transférés. Saut de ligne trop grand avec balise gras vide au milieu. 
       RC_add = RC_add.replace(/^\s([\S\s]+)?$/, '$1') //Supprime le premier retour à la ligne dans le textarea du au div du code.
@@ -79,10 +70,10 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
         RC_add = RC_add.replace(/\[b\]Ressources pillées: \[\/b\]/g, '');
         RC_add = RC_add.replace(/\[img\].*\([0-9.]*\/[0-9.]*\)/g, '');
       }
-      //Laisser ces 5 lignes en dernières c'est question de mise en page finale, post changement.
+      //Mise en page après changement.
       RC_add = RC_add.replace(/&nbsp;/g, ' ');
-      RC_add = RC_add.replace(/\n\n\n\n/g, '\n'); //Supprime les trop grand nombres de saut de ligne après modification pour une mise en page plus jolie.
-      RC_add = RC_add.replace(/\n\n\n/g, '\n\n'); //Supprime les trop grand nombres de saut de ligne après modification pour une mise en page plus jolie. 
+      RC_add = RC_add.replace(/\n\n\n\n/g, '\n'); //Supprime les trop grand nombres de saut de ligne.
+      RC_add = RC_add.replace(/\n\n\n/g, '\n\n'); //Supprime les trop grand nombres de saut de ligne.
       RC_add = RC_add.replace(/<b>/g, '') //Supprime certaines balises html qui s'affiche inutilement.
       RC_add = RC_add.replace(/<\/b>/g, '') //Supprime certaines balises html qui s'affiche inutilement.
       //Transformation en bb_code raccourci
@@ -103,23 +94,24 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
       RC_add = RC_add.replace(/\[img\].*yellow.png\[\/img\]/g, 'img_yellow');
       RC_add = RC_add.replace(/\[img\].*red.png\[\/img\]/g, 'img_red');
       RC_add = RC_add.replace(/\[img\].*green.png\[\/img\]/g, 'img_green');
-      RC_saved += RC_add;
-      GM_setValue('rc', RC_saved);
-      document.getElementById('validation').style.visibility = 'visible';
-      setTimeout(anim, 1000);
+      RC_add = RC_add.replace(/\[img\].*res2.png\[\/img\]/g, 'res2');
+      RC_add = RC_add.replace(/\[img\].*res1.png\[\/img\]/g, 'res1');
+      RC_add = RC_add.replace(/\[img\].*res3.png\[\/img\]/g, 'res3');
+      RC_saved += RC_add +'\n\n';
+      GM_setValue('rc'+nom, RC_saved);
       document.getElementById('textareaRC').value = RC_saved;
       nbrCaract = RC_saved.length;
-      GM_setValue('nbrcaract', nbrCaract);
-      caractere();      
+      GM_setValue('nbrcaract'+nom, nbrCaract);
+      caractere();
     }, true);
     
     //Variable des options qui sont sauvegardés selon le choix des utilisateurs.
-    var WinSize = GM_getValue('winsize', '');
-    var Ressource = GM_getValue('ressource', '');
-    var imgRessource = GM_getValue('imgressource', 'http://image.noelshack.com/fichiers/2015/25/1434585646-invalideressource.png')
-    var defaultDisplay = GM_getValue('defaultdisplay', '');
-    var defaultDisplayText = GM_getValue('defaultdisplaytext', '');
-    var urlRobot = GM_getValue('urlrobot', '');
+    var WinSize = GM_getValue('winsize'+nom, '');
+    var Ressource = GM_getValue('ressource'+nom, '');
+    var imgRessource = GM_getValue('imgressource'+nom, 'http://image.noelshack.com/fichiers/2015/25/1434585646-invalideressource.png')
+    var defaultDisplay = GM_getValue('defaultdisplay'+nom, '');
+    var defaultDisplayText = GM_getValue('defaultdisplaytext'+nom, '');
+    var urlRobot = GM_getValue('urlrobot'+nom, '');
     
     var newElement = document.createElement('tr'); //Création du menu en bas de la page
     newElement.innerHTML = '<td><img src="http://s17.fr.kingsage.gameforge.com/img/arrow_right_raquo.png" alt="" /><span class="click" id="affichage"> KingsAge RC Converter</span><br/></td>';
@@ -157,15 +149,17 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
     //Fonction qui gère le bouton Valider
     document.getElementById('recupUrl').addEventListener('click', function (event)
     {
+      $(this).fadeOut().fadeIn();
       url = document.forms['url'].elements['url'].value;
-      GM_setValue('urlrobot', url);
+      GM_setValue('urlrobot'+nom, url);
     }, true);
     
     //Fonction qui gère le bouton Réinitialiser
     document.getElementById('initialiseUrl').addEventListener('click', function (event)
     {
+      $(this).fadeOut().fadeIn();
       document.forms['url'].elements['url'].value = '';
-      GM_setValue('urlrobot', '');
+      GM_setValue('urlrobot'+nom, '');
     }, true);
     
     //Fonction qui ouvre/ferme KingsAge RC exporter
@@ -173,7 +167,7 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
     {
       if (defaultDisplay == 'none')
       {
-        GM_setValue('defaultdisplay', 'block');
+        GM_setValue('defaultdisplay'+nom, 'block');
         defaultDisplay = 'block';
         document.getElementById('spanareaRC').style.display = 'block';
         document.getElementById('spanareaRC2').style.display = 'block';
@@ -184,7 +178,7 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
         document.getElementById('spanareaRC').style.display = 'none';
         document.getElementById('spanareaRC2').style.display = 'none';
         document.getElementById('spanareaRC3').style.display = 'none';
-        GM_setValue('defaultdisplay', 'none');
+        GM_setValue('defaultdisplay'+nom, 'none');
         defaultDisplay = 'none';
       }
     }, false);
@@ -193,8 +187,8 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
     document.getElementById('deleteRc').addEventListener('click', function (event)
     {
       RC_saved = '';
-      GM_setValue('rc', '');
-      GM_setValue('nbrcaract', '0');
+      GM_setValue('rc'+nom, '');
+      GM_setValue('nbrcaract'+nom, '0');
       document.getElementById('textareaRC').value = '';
       document.getElementById('mySpan').innerHTML = '0';
       document.getElementById('mySpan').style.color = 'black';
@@ -206,14 +200,14 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
     {
       if (defaultDisplayText == 'none')
       {
-        GM_setValue('defaultdisplaytext', 'block');
+        GM_setValue('defaultdisplaytext'+nom, 'block');
         defaultDisplayText = 'block';
         document.getElementById('textSpanArea').style.display = 'block';
       } 
       else
       {
         document.getElementById('textSpanArea').style.display = 'none';
-        GM_setValue('defaultdisplaytext', 'none');
+        GM_setValue('defaultdisplaytext'+nom, 'none');
         defaultDisplayText = 'none';
       }
     }, false);
@@ -224,14 +218,14 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
       if (WinSize == 30)
       {
         document.getElementById('textareaRC').rows = '30';
-        GM_setValue('winsize', '30');
+        GM_setValue('winsize'+nom, '30');
         WinSize = 30;
       } 
       else
       {
         WinSize += 5
         document.getElementById('textareaRC').rows = WinSize;
-        GM_setValue('winsize', WinSize);
+        GM_setValue('winsize'+nom, WinSize);
       }
     }, true);
     
@@ -241,14 +235,14 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
       if (WinSize == 5)
       {
         document.getElementById('textareaRC').rows = '5';
-        GM_setValue('winsize', '5');
+        GM_setValue('winsize'+nom, '5');
         WinSize = 5;
       } 
       else
       {
         WinSize -= 5
         document.getElementById('textareaRC').rows = WinSize;
-        GM_setValue('winsize', WinSize);
+        GM_setValue('winsize'+nom, WinSize);
       }
     }, true);
     
@@ -258,25 +252,25 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
       if (Ressource == 'inactif')
       {
         document.getElementById('ressourceRC').src = 'http://image.noelshack.com/fichiers/2015/25/1434585646-valideressource.png';
-        GM_setValue('ressource', 'actif');
+        GM_setValue('ressource'+nom, 'actif');
         Ressource = 'actif';
         imgRessource = 'http://image.noelshack.com/fichiers/2015/25/1434585646-valideressource.png';
-        GM_setValue('imgressource', 'http://image.noelshack.com/fichiers/2015/25/1434585646-valideressource.png');
+        GM_setValue('imgressource'+nom, 'http://image.noelshack.com/fichiers/2015/25/1434585646-valideressource.png');
       } 
       else
       {
         document.getElementById('ressourceRC').src = 'http://image.noelshack.com/fichiers/2015/25/1434585646-invalideressource.png';
-        GM_setValue('ressource', 'inactif');
+        GM_setValue('ressource'+nom, 'inactif');
         Ressource = 'inactif';
         imgRessource = 'http://image.noelshack.com/fichiers/2015/25/1434585646-invalideressource.png';
-        GM_setValue('imgressource', 'http://image.noelshack.com/fichiers/2015/25/1434585646-invalideressource.png');
+        GM_setValue('imgressource'+nom, 'http://image.noelshack.com/fichiers/2015/25/1434585646-invalideressource.png');
       }
     }, true);
     
     //Fonction qui gère le clic du bouton Envoyer sur le forum
     document.getElementById('demarrerrobot').addEventListener('click', function (event)
     {
-      urlBoard = GM_getValue('urlrobot', '');
+      urlBoard = GM_getValue('urlrobot'+nom, '');
       urlBoard += '?bouton=script'
       if (urlBoard == '?bouton=script')
       {
@@ -284,13 +278,92 @@ if (/fr.kingsage.gameforge.com\/game/.test(location.href))
       } 
       else
       {
-        document.getElementById('textareaRC').value = '';
-        document.getElementById('mySpan').innerHTML = '0';
-        document.getElementById('mySpan').style.color = 'black';
-        document.getElementById('selectImg').style.visibility = 'hidden';        
+        GM_setValue('rc',GM_getValue('rc'+nom, ''));
         window.open(urlBoard);
       }
     }, true);
+  }
+  
+  if (/m=forum/.test(location.href))
+  {
+    var nom = document.location.href;
+    nom = nom.replace(/^.*(s[0-9]{1,2}).*/i, '$1');
+    var lien = GM_getValue('url' + nom + 'forum', '');
+    
+    $('iframe[src*="forum.php?"]').load(function () {
+      var forum = $('iframe[src*="forum.php?"]').get(0).contentDocument.location.href;
+      if (forum.match('s=forum_thread&thread_id='))
+      {
+        var contenu = $('iframe[src*="forum.php?"]').contents();
+        $(contenu).find('div.smallButton:first').before('<div class="smallButton"><span id="KingsageRC" style="cursor:pointer;">Sauvegarder(RC Exporter)</span></div>');
+        $(contenu).find('#KingsageRC').bind('click', function ()
+        {
+          $(this).fadeOut().fadeIn();
+          var idThread = $('iframe[src*="forum.php?"]').contents().find('td.headerInfo > a').attr('href');
+          var url = document.location.href;
+          lien = url.replace(/game.php.*/, idThread);
+          GM_setValue('url' + nom + 'forum', lien);
+        })
+      }
+    })
+  }
+  if (/s=messages/.test(location.href))
+  {
+    if (document.getElementById('bb_code'))
+    {
+      var nom = document.location.href;
+      nom = nom.replace(/^.*(s[0-9]{1,2}).*/i, '$1');
+      
+      var bouton = document.createElement('div');
+      bouton.innerHTML = 'Ajouter au forum d\'alliance'
+      bouton.setAttribute('class', 'smallButton');
+      bouton.setAttribute('id', 'ajouterforum');
+      bouton.setAttribute('style', 'cursor:pointer;');
+      document.querySelectorAll('.smallButton') [0].parentNode.appendChild(bouton);
+      
+      $('#ajouterforum').bind('click', function ()
+      {
+        $(this).fadeOut('slow').fadeIn('slow');
+        threadID = GM_getValue('url' + nom + 'forum', '');
+        function confirmPost(playerName, threadName)
+        {
+          function makePost()
+          {
+            var single = document.getElementById('bb_code').innerHTML.replace(/<br>\[b\]\[\/b\]<br>/g, '');
+            single = single.replace(/^\s([\S\s]+)?$/, '$1')
+            single = single.replace(/<br>/g, '\n'); //Remplace les sauts de ligne en code html par des sauts de lignes
+            single = single.replace(/<span class="zero">0<\/span>/g, '0'); //Remplace le résultat 0 écrit en html par un 0
+            single = single.replace(/<b>([0-9]*)<\/b>/g, '[b]$1[/b]');
+            single = single.replace(/&nbsp;/g, ' ');
+            single = single.replace(/<b>/g, '') //Supprime certaines balises html qui s'affiche inutilement.
+            single = single.replace(/<\/b>/g, '') //Supprime certaines balises html qui s'affiche inutilement.
+            $.ajax({
+              url: GM_getValue('url' + nom + 'forum', '') + '&a=forumReplyThread',
+              type: 'POST',
+              data: 'text=' + single,
+              complete: function ()
+              {
+                data.length > 0 && makePost()
+              }
+            });
+          }
+          makePost()
+        }
+        if (threadID != '')
+        {
+          threadName = 'Robert'
+          playerName = $('table.borderlist').eq(2).find('tr:first').text().trim(),
+          playerName = playerName.substring(playerName.indexOf(':') + 1),
+          playerName = $.trim(playerName);
+          confirmPost(playerName, threadName)
+
+        }
+        else 
+        {
+           alert("Vous n\'avez pas selectionné un sujet !")
+        }
+      });
+    }
   }
 }
 
@@ -304,8 +377,7 @@ if (/bouton=script/.test(location.href))
 
 //Script seconde URL : envoyer la reponse
 if (/bouton=url2/.test(location.href))
-{
-  
+{  
   RC_saved = GM_getValue('rc', '');
   document.getElementById('text').innerHTML = RC_saved;
   if (Chrome)
@@ -314,7 +386,4 @@ if (/bouton=url2/.test(location.href))
     document.getElementById('mce_editor_0_codeview').value = RC_saved;
   }
   document.getElementsByName('send') [1].click();
-  RC_saved = '';
-  GM_setValue('rc', '');
-  GM_setValue('nbrcaract', '0');
 }
