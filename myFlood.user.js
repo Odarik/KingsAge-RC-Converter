@@ -24,7 +24,7 @@ if (Chrome)
 }
 // == Script ==
 
-if ((/form=PostAdd/.test(location.href))||(/form=ThreadAdd/.test(location.href)))
+if ((/form=PostAdd/.test(location.href))||(/form=ThreadAdd/.test(location.href))|| (/form=PMNew/.test(location.href)))
 {
   var caseAv = GM_getValue('caseAv', '');
   var caseAp = GM_getValue('caseAp', '');
