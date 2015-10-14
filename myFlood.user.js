@@ -46,8 +46,8 @@ if ((/form=PostAdd/.test(location.href))||(/form=ThreadAdd/.test(location.href))
   {
     caseAv = document.forms['case'].elements['case'].value;
     GM_setValue('caseAv', caseAv);
-    caseApV = document.forms['case'].elements['case2'].value;
-    GM_setValue('caseAp', caseApV);
+    caseAp = document.forms['case'].elements['case2'].value;
+    GM_setValue('caseAp', caseAp);
   }, true);
 }
 
