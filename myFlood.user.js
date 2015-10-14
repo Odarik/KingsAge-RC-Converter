@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         myFlood
-// @version      0.0.2
+// @version      0.0.3
 // @description  Script option message board officiel
 // @author       Odarik
 // @include      http://board.fr.ogame.gameforge.com/*
@@ -36,8 +36,10 @@ if ((/form=PostAdd/.test(location.href))||(/form=ThreadAdd/.test(location.href))
   //Fonction qui gère le bouton Envoyer
   document.getElementById('ajouter').addEventListener('click', function (event)
   {
-    document.getElementById('mce_editor_0_codeview').value = caseAv + document.getElementById('mce_editor_0_codeview').value;
-    document.getElementById('mce_editor_0_codeview').value += caseAp;
+    resultat = document.getElementById('mce_editor_0_codeview').value;
+    resultat = resultat.replace(/\[quote\]/g, caseAp+'\[quote\]');
+    resultat = resultat.replace(/\[\/quote\]/g, '\[\/quote\]'+caseAv);
+    document.getElementById('mce_editor_0_codeview').value = caseAv + resultat + caseAp;
   }, true);
 
   document.getElementById('Sauvegarder').addEventListener('click', function (event)
