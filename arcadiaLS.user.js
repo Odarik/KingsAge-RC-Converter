@@ -2,7 +2,7 @@
 // @name        LS Arcadia
 // @namespace   LS Arcadia
 // @author      Odarik
-// @version     1.0.1
+// @version     1.0.2
 // @include     http://www.arcadia-forum.com/*
 // @grant       none
 // ==/UserScript==
@@ -30,6 +30,7 @@ if (/libre-service/.test(location.href))
   var avatar = '';
   var signature = '';
   var autresgraph = '';
+  var fiche ='';
   var newElement = document.createElement('div');
   newElement.innerHTML = '<div id="closeLS" style="cursor:pointer;position:relative;top:200px;text-decoration: none;left:25%;  font-size: 35px;  font-weight: bold;  color: #fff;margin-bottom:10px;">×</div><center><textarea style="width:50%;height:700px;margin-top:200px;" id="textareaLS"></textarea></center>';
   newElement.setAttribute('style', 'width:100%;height:100%;background-color: rgba(0, 0, 0, 0.4);position:absolute;top:0px;z-index:600;display:none;');
@@ -54,7 +55,10 @@ if (/libre-service/.test(location.href))
       if (contenu.search(/\[header\]/i) != - 1) {
         header += '[*]' + contenu;
       }
-      if ((contenu.search(/\[qeel\]/i) == - 1) && (contenu.search(/\[pa\]/i) == - 1) && (contenu.search(/\[profil\]/i) == - 1) && (contenu.search(/\[catégories\]/i) == - 1) && (contenu.search(/\[header\]/i) == - 1))
+      if (contenu.search(/\[fiche.*\]/i) != - 1) {
+        fiche += '[*]' + contenu;
+      }
+      if ((contenu.search(/\[qeel\]/i) == - 1) && (contenu.search(/\[pa\]/i) == - 1) && (contenu.search(/\[profil\]/i) == - 1) && (contenu.search(/\[catégories\]/i) == - 1) && (contenu.search(/\[header\]/i) == - 1) && (contenu.search(/\[fiche.*\]/i) != - 1))
       {
         autres += '[*]' + contenu;
       }
@@ -65,6 +69,7 @@ if (/libre-service/.test(location.href))
     '<div class="soustitre_ls" >• Catégories et Forums</div>\n[list]' + categorie + '[/list]\n\n' +
     '<div class="soustitre_ls" >• QEEL</div>\n[list]' + qeel + '[/list]\n\n' +
     '<div class="soustitre_ls" >• Messages et Profils</div>\n[list]' + message + '[/list]\n\n' +
+    '<div class="soustitre_ls" >• Fiche Pub et RP</div>\n[list]' + fiche + '[/list]\n\n' +
     '<div class="soustitre_ls" >• Autres</div>\n[list]' + autres + '[/list]';
     document.getElementById('textareaLS').innerHTML = contenufin;
     document.getElementById('divLS').style.display = 'table';
