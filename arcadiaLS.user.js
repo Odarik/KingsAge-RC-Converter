@@ -2,7 +2,7 @@
 // @name        LS Arcadia
 // @namespace   LS Arcadia
 // @author      Odarik
-// @version     1
+// @version     1.0.1
 // @include     http://www.arcadia-forum.com/*
 // @grant       none
 // ==/UserScript==
@@ -11,12 +11,12 @@ if (/libre-service/.test(location.href))
   var bouton = document.createElement('a');
   bouton.innerHTML = 'Script LS Graph'
   bouton.setAttribute('id', 'scriptLSGraph');
-  bouton.setAttribute('style', 'cursor:pointer;position:relative;left:-550px;');
+  bouton.setAttribute('style', 'cursor:pointer;position:absolute;left:140px;');
   document.querySelectorAll('.ls_nav') [0].appendChild(bouton);
   var bouton = document.createElement('a');
   bouton.innerHTML = 'Script LS Codage'
   bouton.setAttribute('id', 'scriptLSCod');
-  bouton.setAttribute('style', 'cursor:pointer;position:relative;left:-540px;');
+  bouton.setAttribute('style', 'cursor:pointer;position:absolute;left:250px;');
   document.querySelectorAll('.ls_nav') [0].appendChild(bouton);
   var contenu = '';
   var qeel = '';
