@@ -55,7 +55,7 @@ if (/libre-service/.test(location.href))
     
     contenufin = '<div class="titre_ls">Récapitulatif du Libre Service</div>\n\n[center]Ce topic reprend tous les liens des libres services présents dans ce sous-forum. Vous n&apos;avez plus qu&apos;à faire votre choix ![/center]\n\n' +
       '<div class="soustitre_ls" >• Header et Footer</div>\n[list]' + header + '[/list]\n\n' + 
-      '<div class="soustitre_ls" >• Page d&aposAcceuil</div>\n[list]' + pa + '[/list]\n\n' + 
+      '<div class="soustitre_ls" >• Page d&apos;Acceuil</div>\n[list]' + pa + '[/list]\n\n' + 
       '<div class="soustitre_ls" >• Catégories et Forums</div>\n[list]' + categorie + '[/list]\n\n' + 
       '<div class="soustitre_ls" >• QEEL</div>\n[list]' + qeel + '[/list]\n\n' + 
       '<div class="soustitre_ls" >• Messages et Profils</div>\n[list]' + message + '[/list]\n\n' + 
