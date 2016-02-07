@@ -2,7 +2,7 @@
 // @name        LS Arcadia
 // @namespace   LS Arcadia
 // @author      Odarik
-// @version     1.0.5
+// @version     1.1.0
 // @include     http://www.arcadia-forum.com/*
 // @updateURL   https://github.com/Odarik/KingsAge-RC-Converter/raw/master/arcadiaLS.user.js
 // @downloadURL https://github.com/Odarik/KingsAge-RC-Converter/raw/master/arcadiaLS.user.js
@@ -63,8 +63,12 @@ if (/libre-service/.test(location.href))
   document.body.appendChild(newElement);
   document.getElementById('scriptLSplus').addEventListener('click', function (event)
   {
-    for (i = 0; i < document.querySelectorAll('.ls_infos.ls_red').length; i++) {
-      contenu = document.querySelectorAll('.ls_infos.ls_red') [i].innerHTML.replace(/.*(<a class="ls_topictitle.*".*>;*<\/a>).*/g, '$1').replace(/<img [^>]*>/, '').replace(/(<a[^<]*<\/a>).*/, '$1').replace(/class="ls_topictitle ls_red"/, '') + '\n';
+    for (i = 0; i < document.querySelectorAll('.ls_infos').length; i++) {
+      contenu2 = document.querySelectorAll('.ls_infos') [i].parentNode.parentNode.getAttribute('class');
+      contenu = document.querySelectorAll('.ls_infos') [i].innerHTML.replace(/.*(<a class="ls_topictitle.*".*>.*<\/a>).*/g, '$1').replace(/<img [^>]*>/, '').replace(/(<a[^<]*<\/a>).*/, '$1').replace(/class="ls_topictitle"/, '') + '\n';
+      if(contenu2 != 'ls_bloc'){
+        contenu = "";
+      }
       if (contenu.search(/\[qeel\]/i) != - 1) {
         qeel += '[*]' + contenu;
       }
@@ -74,7 +78,7 @@ if (/libre-service/.test(location.href))
       if (contenu.search(/\[profil\]/i) != - 1) {
         message += '[*]' + contenu;
       }
-      if (contenu.search(/\[catégories\]/i) != - 1) {
+      if ((contenu.search(/\[catégories\]/i) != - 1) || (contenu.search(/\[.*sous-forums.*\]/i) != - 1)) {
         categorie += '[*]' + contenu;
       }
       if (contenu.search(/\[header\]/i) != - 1) {
@@ -86,7 +90,7 @@ if (/libre-service/.test(location.href))
       if (contenu.search(/\[fiche rp\]/i) != - 1) {
         ficherp += '[*]' + contenu;
       }
-      if ((contenu.search(/\[qeel\]/i) == - 1) && (contenu.search(/\[pa\]/i) == - 1) && (contenu.search(/\[profil\]/i) == - 1) && (contenu.search(/\[catégories\]/i) == - 1) && (contenu.search(/\[header\]/i) == - 1) && (contenu.search(/\[fiche rp\]/i) == - 1) && (contenu.search(/\[fiche pub\]/i) == - 1))
+      if ((contenu.search(/\[qeel\]/i) == - 1) && (contenu.search(/\[pa\]/i) == - 1) && (contenu.search(/\[profil\]/i) == - 1) && (contenu.search(/\[catégories\]/i) == - 1) && (contenu.search(/\[header\]/i) == - 1) && (contenu.search(/\[fiche rp\]/i) == - 1) && (contenu.search(/\[fiche pub\]/i) == - 1) && (contenu != "") && (contenu.search(/\[.*sous-forums.*\]/i) == - 1) )
       {
         autres += '[*]' + contenu;
       }
@@ -99,7 +103,7 @@ if (/libre-service/.test(location.href))
       if (contenu.search(/signature/i) != - 1) {
         signature += '[*]' + contenu;
       }
-      if ((contenu.search(/header/i) == - 1) && (contenu.search(/bannière/i) == - 1) && (contenu.search(/avatar/i) == - 1) && (contenu.search(/signature/i) == - 1))
+      if ((contenu.search(/header/i) == - 1) && (contenu.search(/bannière/i) == - 1) && (contenu.search(/avatar/i) == - 1) && (contenu.search(/signature/i) == - 1) && (contenu != ""))
       {
         autresgraph += '[*]' + contenu;
       }
